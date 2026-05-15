@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:5000/api/ecommerce";
+const API = "https://smart-artisan-backend.onrender.com/api/ecommerce";
 
 export const getDashboardData = async () => {
 
