@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
-
+const ecommerceRoutes = require("./routes/ecommerceRoutes");
 const app = express();
 
 app.use(cors());
@@ -15,6 +15,7 @@ app.use(express.json());
 /* ROUTES */
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/ecommerce", ecommerceRoutes);
 
 app.get("/", (req, res) => {
   res.send("Smart Artisan API Running");

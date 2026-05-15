@@ -1,10 +1,7 @@
 import {
-  LayoutDashboard,
   Package,
   CreditCard,
   Brain,
-  User,
-  LogOut,
 } from "lucide-react";
 
 import {
@@ -16,11 +13,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { Link } from "react-router-dom";
-
 import { useEffect, useState } from "react";
 
 import { getDashboardData } from "../api/dashboardApi";
+
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 
 export default function Dashboard() {
 
@@ -43,7 +41,6 @@ export default function Dashboard() {
     } catch (error) {
 
       console.log(error);
-
     }
   };
 
@@ -52,369 +49,328 @@ export default function Dashboard() {
   const totalProducts = products.length;
 
   const totalQuantity = products.reduce(
-    (acc, item) => acc + Number(item.quantity),
+    (acc, item) =>
+      acc + Number(item.quantity),
     0
   );
 
   const totalRevenue = products.reduce(
     (acc, item) =>
-      acc + Number(item.price) * Number(item.quantity),
+      acc +
+      Number(item.price) *
+        Number(item.quantity),
     0
   );
 
   /* CHART DATA */
 
-  const chartData = products.map((item) => ({
-    name: item.name,
-    revenue: item.price * item.quantity,
-  }));
+  const chartData = products
+    .slice(0, 10)
+    .map((item) => ({
+      name:
+        item.name?.substring(0, 8) || "Product",
+      revenue:
+        item.price * item.quantity,
+    }));
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        background:
-          "linear-gradient(135deg, #020617 0%, #020b2d 45%, #071133 100%)",
-        color: "white",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
 
-      {/* SIDEBAR */}
+    <>
+
+      <Sidebar />
+
       <div
         style={{
-          width: "260px",
-          background: "rgba(255,255,255,0.03)",
-          borderRight: "1px solid rgba(255,255,255,0.08)",
-          padding: "30px 20px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
+          marginLeft: "260px",
         }}
       >
 
-        <div>
+        <Navbar />
 
-          <h1
-            style={{
-              color: "#38bdf8",
-              fontSize: "32px",
-              marginBottom: "50px",
-            }}
-          >
-            Smart Artisan
-          </h1>
-
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "18px",
-            }}
-          >
-
-            <Link
-              to="/dashboard"
-              style={{ textDecoration: "none" }}
-            >
-              <SidebarItem
-                icon={<LayoutDashboard size={22} />}
-                text="Dashboard"
-                active
-              />
-            </Link>
-
-            <Link
-              to="/products"
-              style={{ textDecoration: "none" }}
-            >
-              <SidebarItem
-                icon={<Package size={22} />}
-                text="Products"
-              />
-            </Link>
-
-            <Link
-              to="/payments"
-              style={{ textDecoration: "none" }}
-            >
-              <SidebarItem
-                icon={<CreditCard size={22} />}
-                text="Payments"
-              />
-            </Link>
-
-            <Link
-              to="/ai"
-              style={{ textDecoration: "none" }}
-            >
-              <SidebarItem
-                icon={<Brain size={22} />}
-                text="AI Insights"
-              />
-            </Link>
-
-            <Link
-              to="/profile"
-              style={{ textDecoration: "none" }}
-            >
-              <SidebarItem
-                icon={<User size={22} />}
-                text="Profile"
-              />
-            </Link>
-
-          </div>
-        </div>
-
-        <div
-  onClick={() => {
-
-    localStorage.removeItem("token");
-
-    localStorage.removeItem("user");
-
-    window.location.href = "/login";
-  }}
->
-  <SidebarItem
-    icon={<LogOut size={22} />}
-    text="Logout"
-  />
-</div>
-
-      </div>
-
-      {/* MAIN */}
-      <div
-        style={{
-          flex: 1,
-          padding: "35px",
-        }}
-      >
-
-        {/* TOP */}
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "35px",
+            minHeight: "100vh",
+            padding: "40px",
+            background:
+              "linear-gradient(135deg,#020617,#08135C)",
+            color: "white",
+            fontFamily:
+              "Poppins, sans-serif",
           }}
         >
 
-          <div>
-
-            <h1
-              style={{
-                margin: 0,
-                fontSize: "42px",
-              }}
-            >
-              Dashboard
-            </h1>
-
-            <p
-              style={{
-                color: "#94a3b8",
-                marginTop: "8px",
-                fontSize: "18px",
-              }}
-            >
-              Welcome back 👋
-            </p>
-
-          </div>
-
+          {/* TOP */}
           <div
             style={{
-              width: "55px",
-              height: "55px",
-              borderRadius: "50%",
-              background: "#38bdf8",
               display: "flex",
+              justifyContent:
+                "space-between",
               alignItems: "center",
-              justifyContent: "center",
-              fontWeight: "bold",
-              color: "#020617",
-              fontSize: "22px",
-            }}
-          >
-            A
-          </div>
-
-        </div>
-
-        {/* KPI CARDS */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "25px",
-            marginBottom: "35px",
-          }}
-        >
-
-          <Card
-  title="Total Products"
-  value={totalProducts}
-  icon={<Package size={28} color="#a855f7" />}
-  iconBg="rgba(168,85,247,0.15)"
-/>
-
-<Card
-  title="Total Quantity"
-  value={totalQuantity}
-  icon={<CreditCard size={28} color="#22d3ee" />}
-  iconBg="rgba(34,211,238,0.15)"
-/>
-
-<Card
-  title="Total Revenue"
-  value={`₹${totalRevenue}`}
-  icon={<Brain size={28} color="#facc15" />}
-  iconBg="rgba(250,204,21,0.15)"
-/>
-
-        </div>
-
-        {/* CHART + PRODUCTS */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "2fr 1fr",
-            gap: "25px",
-          }}
-        >
-
-          {/* CHART */}
-          <div
-            style={{
-              background: "rgba(255,255,255,0.04)",
-              borderRadius: "24px",
-              padding: "25px",
-              border: "1px solid rgba(255,255,255,0.08)",
+              marginBottom: "40px",
             }}
           >
 
-            <h2
-              style={{
-                marginTop: 0,
-                marginBottom: "20px",
-              }}
-            >
-              Revenue Analytics
-            </h2>
+            <div>
 
-            <div style={{ width: "100%", height: 350 }}>
+              <h1
+                style={{
+                  margin: 0,
+                  fontSize: "48px",
+                  fontWeight: "700",
+                }}
+              >
+                Dashboard
+              </h1>
 
-              <ResponsiveContainer>
-
-                <BarChart data={chartData}>
-
-                  <XAxis
-                    dataKey="name"
-                    stroke="#94a3b8"
-                  />
-
-                  <YAxis stroke="#94a3b8" />
-
-                  <Tooltip />
-
-                  <Bar
-                    dataKey="revenue"
-                    fill="#38bdf8"
-                    radius={[8, 8, 0, 0]}
-                  />
-
-                </BarChart>
-
-              </ResponsiveContainer>
+              <p
+                style={{
+                  color: "#94a3b8",
+                  marginTop: "10px",
+                  fontSize: "18px",
+                }}
+              >
+                Welcome back 👋
+              </p>
 
             </div>
 
-          </div>
-
-          {/* RECENT PRODUCTS */}
-          <div
-            style={{
-              background: "rgba(255,255,255,0.04)",
-              borderRadius: "24px",
-              padding: "25px",
-              border: "1px solid rgba(255,255,255,0.08)",
-              maxHeight: "500px",
-              overflowY: "auto",
-            }}
-          >
-
-            <h2
-              style={{
-                marginTop: 0,
-                marginBottom: "20px",
-              }}
-            >
-              Recent Products
-            </h2>
-
+            {/* AVATAR */}
             <div
               style={{
+                width: "60px",
+                height: "60px",
+                borderRadius: "50%",
+                background:
+                  "linear-gradient(135deg,#38bdf8,#6366f1)",
                 display: "flex",
-                flexDirection: "column",
-                gap: "18px",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: "700",
+                fontSize: "24px",
+                boxShadow:
+                  "0 10px 30px rgba(56,189,248,0.4)",
+              }}
+            >
+              V
+            </div>
+
+          </div>
+
+          {/* KPI CARDS */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns:
+                "repeat(auto-fit,minmax(280px,1fr))",
+              gap: "24px",
+              marginBottom: "40px",
+            }}
+          >
+
+            <Card
+              title="Total Products"
+              value={totalProducts}
+              icon={
+                <Package
+                  size={28}
+                  color="#a855f7"
+                />
+              }
+              iconBg="rgba(168,85,247,0.15)"
+            />
+
+            <Card
+              title="Total Quantity"
+              value={totalQuantity}
+              icon={
+                <CreditCard
+                  size={28}
+                  color="#22d3ee"
+                />
+              }
+              iconBg="rgba(34,211,238,0.15)"
+            />
+
+            <Card
+              title="Revenue"
+              value={`₹${totalRevenue.toLocaleString()}`}
+              icon={
+                <Brain
+                  size={28}
+                  color="#facc15"
+                />
+              }
+              iconBg="rgba(250,204,21,0.15)"
+            />
+
+          </div>
+
+          {/* CHART + PRODUCTS */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns:
+                "2fr 1fr",
+              gap: "24px",
+            }}
+          >
+
+            {/* CHART */}
+            <div
+              style={glassCard}
+            >
+
+              <h2
+                style={{
+                  marginTop: 0,
+                  marginBottom: "20px",
+                }}
+              >
+                Revenue Analytics
+              </h2>
+
+              <div
+                style={{
+                  width: "100%",
+                  height: "350px",
+                }}
+              >
+
+                <ResponsiveContainer>
+
+                  <BarChart
+                    data={chartData}
+                  >
+
+                    <XAxis
+                      dataKey="name"
+                      stroke="#94a3b8"
+                    />
+
+                    <YAxis
+                      stroke="#94a3b8"
+                    />
+
+                    <Tooltip />
+
+                    <Bar
+                      dataKey="revenue"
+                      fill="#38bdf8"
+                      radius={[
+                        8,
+                        8,
+                        0,
+                        0,
+                      ]}
+                    />
+
+                  </BarChart>
+
+                </ResponsiveContainer>
+
+              </div>
+
+            </div>
+
+            {/* RECENT PRODUCTS */}
+            <div
+              style={{
+                ...glassCard,
+                maxHeight: "500px",
+                overflowY: "auto",
               }}
             >
 
-              {products.map((product) => (
+              <h2
+                style={{
+                  marginTop: 0,
+                  marginBottom: "20px",
+                }}
+              >
+                Recent Products
+              </h2>
 
-                <div
-                  key={product._id}
-                  style={{
-                    display: "flex",
-                    gap: "15px",
-                    alignItems: "center",
-                    background: "rgba(255,255,255,0.05)",
-                    padding: "12px",
-                    borderRadius: "14px",
-                  }}
-                >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "18px",
+                }}
+              >
 
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    style={{
-                      width: "70px",
-                      height: "70px",
-                      objectFit: "cover",
-                      borderRadius: "12px",
-                    }}
-                  />
+                {products
+                  .slice(0, 8)
+                  .map((product) => (
 
-                  <div>
-
-                    <h4
+                    <div
+                      key={product._id}
                       style={{
-                        margin: 0,
-                        marginBottom: "6px",
+                        display: "flex",
+                        gap: "15px",
+                        alignItems:
+                          "center",
+                        background:
+                          "rgba(255,255,255,0.05)",
+                        padding: "14px",
+                        borderRadius:
+                          "16px",
+                        transition:
+                          "0.3s ease",
                       }}
                     >
-                      {product.name}
-                    </h4>
 
-                    <p
-                      style={{
-                        margin: 0,
-                        color: "#94a3b8",
-                      }}
-                    >
-                      ₹{product.price}
-                    </p>
+                      <img
+                        src={
+                          product.image ||
+                          "https://placehold.co/300x200"
+                        }
+                        alt={
+                          product.name
+                        }
+                        style={{
+                          width: "70px",
+                          height: "70px",
+                          objectFit:
+                            "cover",
+                          borderRadius:
+                            "14px",
+                        }}
+                      />
 
-                  </div>
+                      <div>
 
-                </div>
+                        <h4
+                          style={{
+                            margin: 0,
+                            marginBottom:
+                              "6px",
+                            fontSize:
+                              "16px",
+                          }}
+                        >
+                          {product.name}
+                        </h4>
 
-              ))}
+                        <p
+                          style={{
+                            margin: 0,
+                            color:
+                              "#94a3b8",
+                          }}
+                        >
+                          ₹
+                          {Number(
+                            product.price
+                          ).toFixed(2)}
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                  ))}
+
+              </div>
 
             </div>
 
@@ -424,57 +380,45 @@ export default function Dashboard() {
 
       </div>
 
-    </div>
+    </>
   );
 }
 
-/* SIDEBAR */
-function SidebarItem({ icon, text, active }) {
+/* KPI CARD */
+function Card({
+  title,
+  value,
+  icon,
+  iconBg,
+}) {
 
   return (
+
     <div
       style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "15px",
-        padding: "15px 18px",
-        borderRadius: "16px",
-        cursor: "pointer",
-        background: active
-          ? "rgba(56,189,248,0.15)"
-          : "transparent",
-        color: active ? "#38bdf8" : "white",
-        fontWeight: "600",
-      }}
-    >
-      {icon}
-      {text}
-    </div>
-  );
-}
-
-/* CARD */
-function Card({ title, value, icon, iconBg }) {
-
-  return (
-    <div
-      style={{
-        background: "rgba(255,255,255,0.04)",
-        borderRadius: "22px",
-        padding: "25px",
-        border: "1px solid rgba(255,255,255,0.08)",
+        background:
+          "rgba(11,20,79,0.85)",
+        backdropFilter:
+          "blur(12px)",
+        borderRadius: "24px",
+        padding: "28px",
+        border:
+          "1px solid rgba(255,255,255,0.08)",
         display: "flex",
         alignItems: "center",
         gap: "20px",
+        transition: "0.3s ease",
+        boxShadow:
+          "0 10px 30px rgba(0,0,0,0.25)",
       }}
     >
 
       {/* ICON */}
       <div
         style={{
-          width: "58px",
-          height: "58px",
-          borderRadius: "16px",
+          width: "65px",
+          height: "65px",
+          borderRadius: "18px",
           background: iconBg,
           display: "flex",
           alignItems: "center",
@@ -490,7 +434,7 @@ function Card({ title, value, icon, iconBg }) {
         <p
           style={{
             color: "#94a3b8",
-            marginBottom: "10px",
+            marginBottom: "8px",
             marginTop: 0,
           }}
         >
@@ -500,7 +444,7 @@ function Card({ title, value, icon, iconBg }) {
         <h1
           style={{
             margin: 0,
-            fontSize: "38px",
+            fontSize: "36px",
           }}
         >
           {value}
@@ -511,3 +455,16 @@ function Card({ title, value, icon, iconBg }) {
     </div>
   );
 }
+
+/* GLASS CARD */
+const glassCard = {
+  background:
+    "rgba(11,20,79,0.85)",
+  backdropFilter: "blur(12px)",
+  borderRadius: "24px",
+  padding: "25px",
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+  boxShadow:
+    "0 10px 30px rgba(0,0,0,0.25)",
+};

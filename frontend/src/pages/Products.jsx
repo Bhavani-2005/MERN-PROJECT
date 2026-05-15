@@ -1,48 +1,45 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 
-import {
-  getProducts,
-  createProduct,
-  deleteProduct,
-  updateProduct,
-} from "../api/productApi";
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 
 export default function Products() {
 
   const [products, setProducts] = useState([]);
-
   const [search, setSearch] = useState("");
-
-  const [editingId, setEditingId] = useState(null);
 
   const [formData, setFormData] = useState({
     name: "",
     category: "",
     price: "",
     quantity: "",
-    description: "",
-    image: "",
   });
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
+  /* FETCH PRODUCTS */
   const fetchProducts = async () => {
 
     try {
 
-      const data = await getProducts();
+      const res = await axios.get(
+        "http://localhost:5000/api/products"
+      );
 
-  setProducts(data.products || []);
+      setProducts(res.data);
 
     } catch (error) {
 
       console.log(error);
-
     }
   };
 
+  useEffect(() => {
+
+    fetchProducts();
+
+  }, []);
+
+  /* HANDLE INPUT */
   const handleChange = (e) => {
 
     setFormData({
@@ -51,34 +48,27 @@ export default function Products() {
     });
   };
 
+  /* ADD PRODUCT */
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
     try {
 
-      if (editingId) {
-
-        await updateProduct(editingId, formData);
-
-        alert("Product Updated");
-
-        setEditingId(null);
-
-      } else {
-
-        await createProduct(formData);
-
-        alert("Product Added");
-      }
+      await axios.post(
+        "http://localhost:5000/api/products",
+        {
+          ...formData,
+          image:
+            "https://placehold.co/300",
+        }
+      );
 
       setFormData({
         name: "",
         category: "",
         price: "",
         quantity: "",
-        description: "",
-        image: "",
       });
 
       fetchProducts();
@@ -86,102 +76,143 @@ export default function Products() {
     } catch (error) {
 
       console.log(error);
-
     }
   };
 
-  const handleDelete = async (id) => {
+  /* DELETE PRODUCT */
+  const deleteProduct = async (id) => {
 
     try {
 
-      await deleteProduct(id);
+      await axios.delete(
+        `http://localhost:5000/api/products/${id}`
+      );
 
       fetchProducts();
 
     } catch (error) {
 
       console.log(error);
-
     }
   };
 
-  const handleEdit = (product) => {
+  /* SEARCH FILTER */
+  const filteredProducts =
+    products.filter((product) =>
+      product.name
+        ?.toLowerCase()
+        .includes(
+          search.toLowerCase()
+        )
+    );
 
-    setFormData({
-      name: product.name,
-      category: product.category,
-      price: product.price,
-      quantity: product.quantity,
-      description: product.description,
-      image: product.image,
-    });
-
-    setEditingId(product._id);
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
-  const filteredProducts = products.filter((product) =>
-  product.name.toLowerCase().includes(
-    search.toLowerCase()
-  )
-);
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background:
-          "linear-gradient(135deg, #020617 0%, #020b2d 50%, #071133 100%)",
-        padding: "40px",
-        color: "white",
-      }}
-    >
+
+    <>
+
+      <Sidebar />
+
       <div
         style={{
-          maxWidth: "1000px",
-          margin: "0 auto",
+          marginLeft: "260px",
         }}
       >
-        <h1
+
+        <Navbar />
+
+        <div
           style={{
-            textAlign: "center",
-            marginBottom: "30px",
-            fontSize: "52px",
+            minHeight: "100vh",
+            background:
+              "linear-gradient(135deg,#020617,#08135C)",
+            color: "white",
+            padding: "40px",
+            fontFamily:
+              "'Poppins', sans-serif",
           }}
         >
-          <input
-  type="text"
-  placeholder="Search products..."
-  value={search}
-  onChange={(e) => setSearch(e.target.value)}
-  style={{
-    width: "100%",
-    padding: "16px",
-    marginBottom: "30px",
-    borderRadius: "14px",
-    border: "1px solid rgba(255,255,255,0.08)",
-    background: "rgba(255,255,255,0.04)",
-    color: "white",
-    fontSize: "16px",
-    outline: "none",
-  }}
-/>
-          Products
-        </h1>
 
-        {/* FORM */}
-        <form onSubmit={handleSubmit}>
-
+          {/* TOP */}
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
+              display: "flex",
+              justifyContent:
+                "space-between",
+              alignItems: "center",
+              marginBottom: "35px",
+              flexWrap: "wrap",
               gap: "20px",
             }}
           >
+
+            <div>
+
+              <h1
+                style={{
+                  fontSize: "48px",
+                  marginBottom: "10px",
+                }}
+              >
+                Products
+              </h1>
+
+              <p
+                style={{
+                  color: "#94a3b8",
+                  fontSize: "18px",
+                }}
+              >
+                Manage all your products
+              </p>
+
+            </div>
+
+            {/* SEARCH */}
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={search}
+              onChange={(e) =>
+                setSearch(
+                  e.target.value
+                )
+              }
+              style={{
+                width: "350px",
+                padding: "16px",
+                borderRadius: "16px",
+                border:
+                  "1px solid rgba(255,255,255,0.08)",
+                background:
+                  "rgba(11,20,79,0.85)",
+                color: "white",
+                fontSize: "16px",
+                outline: "none",
+              }}
+            />
+
+          </div>
+
+          {/* FORM */}
+          <form
+            onSubmit={handleSubmit}
+            style={{
+              background:
+                "rgba(11,20,79,0.85)",
+              backdropFilter:
+                "blur(12px)",
+              borderRadius: "24px",
+              padding: "30px",
+              border:
+                "1px solid rgba(255,255,255,0.08)",
+              marginBottom: "40px",
+              display: "grid",
+              gridTemplateColumns:
+                "repeat(auto-fit,minmax(250px,1fr))",
+              gap: "20px",
+            }}
+          >
+
             <input
               type="text"
               name="name"
@@ -221,156 +252,225 @@ export default function Products() {
               required
               style={inputStyle}
             />
-          </div>
 
-          <textarea
-            name="description"
-            placeholder="Description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            style={{
-              ...inputStyle,
-              width: "100%",
-              marginTop: "20px",
-              minHeight: "120px",
-              resize: "none",
-            }}
-          />
-
-          <input
-            type="text"
-            name="image"
-            placeholder="Image URL"
-            value={formData.image}
-            onChange={handleChange}
-            style={{
-              ...inputStyle,
-              width: "100%",
-              marginTop: "20px",
-            }}
-          />
-
-          <button
-            type="submit"
-            style={{
-              width: "100%",
-              marginTop: "20px",
-              padding: "18px",
-              border: "none",
-              borderRadius: "14px",
-              background: "#38bdf8",
-              color: "#020617",
-              fontWeight: "bold",
-              fontSize: "20px",
-              cursor: "pointer",
-            }}
-          >
-            {editingId ? "Update Product" : "Add Product"}
-          </button>
-        </form>
-
-        {/* PRODUCTS */}
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "30px",
-            marginTop: "50px",
-          }}
-        >
-          {filteredProducts.map((product) => (
-            <div
-              key={product._id}
+            <button
+              type="submit"
               style={{
-                width: "300px",
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderRadius: "20px",
-                padding: "20px",
-                textAlign: "center",
+                gridColumn:
+                  "span 2",
+                padding: "18px",
+                borderRadius:
+                  "16px",
+                border: "none",
+                background:
+                  "linear-gradient(135deg,#38bdf8,#0ea5e9)",
+                color: "#020617",
+                fontWeight: "700",
+                fontSize: "18px",
+                cursor: "pointer",
               }}
             >
-              <img
-                src={product.image}
-                alt={product.name}
-                style={{
-                  width: "100%",
-                  height: "220px",
-                  objectFit: "cover",
-                  borderRadius: "16px",
-                  marginBottom: "20px",
-                }}
-              />
+              Add Product
+            </button>
 
-              <h2>{product.name}</h2>
+          </form>
 
-              <p>
-                <strong>Category:</strong> {product.category}
-              </p>
+          {/* PRODUCT CARDS */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns:
+                "repeat(auto-fit,minmax(260px,1fr))",
+              gap: "25px",
+            }}
+          >
 
-              <p>
-                <strong>Price:</strong> ₹{product.price}
-              </p>
+            {filteredProducts.map(
+              (product) => (
 
-              <p>
-                <strong>Quantity:</strong> {product.quantity}
-              </p>
-
-              <p>{product.description}</p>
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: "15px",
-                  marginTop: "20px",
-                }}
-              >
-                <button
-                  onClick={() => handleEdit(product)}
+                <div
+                  key={product._id}
                   style={{
-                    padding: "10px 18px",
-                    border: "none",
-                    borderRadius: "10px",
-                    background: "#f59e0b",
-                    color: "white",
-                    cursor: "pointer",
-                    fontWeight: "bold",
+                    background:
+                      "rgba(11,20,79,0.85)",
+                    backdropFilter:
+                      "blur(12px)",
+                    borderRadius:
+                      "24px",
+                    padding: "18px",
+                    border:
+                      "1px solid rgba(255,255,255,0.08)",
+                    display: "flex",
+                    flexDirection:
+                      "column",
+                    justifyContent:
+                      "space-between",
+                    transition:
+                      "0.3s ease",
+                    boxShadow:
+                      "0 10px 30px rgba(0,0,0,0.25)",
                   }}
                 >
-                  Edit
-                </button>
 
-                <button
-                  onClick={() => handleDelete(product._id)}
-                  style={{
-                    padding: "10px 18px",
-                    border: "none",
-                    borderRadius: "10px",
-                    background: "#ef4444",
-                    color: "white",
-                    cursor: "pointer",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))}
+                  {/* IMAGE */}
+                  <img
+                    src={
+                      product.category ===
+                      "Furniture"
+                        ? "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=500&q=80"
+
+                        : product.category ===
+                          "Technology"
+                        ? "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=500&q=80"
+
+                        : product.category ===
+                          "Office Supplies"
+                        ? "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=500&q=80"
+
+                        : product.category ===
+                          "Clothing"
+                        ? "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=500&q=80"
+
+                        : product.category ===
+                          "Bags"
+                        ? "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80"
+
+                        : product.category ===
+                          "Electronics"
+                        ? "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=500&q=80"
+
+                        : "https://placehold.co/300x200"
+                    }
+
+                    alt={
+                      product.name
+                    }
+
+                    style={{
+                      width: "100%",
+                      height: "180px",
+                      objectFit:
+                        "cover",
+                      borderRadius:
+                        "18px",
+                      marginBottom:
+                        "18px",
+                    }}
+                  />
+
+                  {/* NAME */}
+                  <h2
+                    style={{
+                      fontSize:
+                        "20px",
+                      lineHeight:
+                        "30px",
+                      marginBottom:
+                        "12px",
+                    }}
+                  >
+                    {product.name}
+                  </h2>
+
+                  {/* DETAILS */}
+                  <p
+                    style={
+                      textStyle
+                    }
+                  >
+                    Category:{" "}
+                    {
+                      product.category
+                    }
+                  </p>
+
+                  <p
+                    style={
+                      textStyle
+                    }
+                  >
+                    Price: ₹
+                    {Number(
+                      product.price
+                    ).toFixed(2)}
+                  </p>
+
+                  <p
+                    style={
+                      textStyle
+                    }
+                  >
+                    Quantity:{" "}
+                    {
+                      product.quantity
+                    }
+                  </p>
+
+                  {/* DELETE */}
+                  <button
+                    onClick={() =>
+                      deleteProduct(
+                        product._id
+                      )
+                    }
+
+                    style={{
+                      width: "100%",
+                      marginTop:
+                        "20px",
+                      padding:
+                        "14px",
+                      borderRadius:
+                        "14px",
+                      border:
+                        "none",
+                      background:
+                        "linear-gradient(135deg,#ef4444,#dc2626)",
+                      color:
+                        "white",
+                      fontWeight:
+                        "600",
+                      cursor:
+                        "pointer",
+                      fontSize:
+                        "15px",
+                    }}
+                  >
+                    Delete
+                  </button>
+
+                </div>
+
+              )
+            )}
+
+          </div>
+
         </div>
+
       </div>
-    </div>
+
+    </>
   );
 }
 
+/* INPUT STYLE */
 const inputStyle = {
-  padding: "18px",
-  borderRadius: "14px",
-  border: "1px solid rgba(255,255,255,0.08)",
-  background: "rgba(255,255,255,0.04)",
+  padding: "16px",
+  borderRadius: "16px",
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+  background:
+    "rgba(255,255,255,0.05)",
   color: "white",
   fontSize: "16px",
   outline: "none",
+};
+
+/* TEXT STYLE */
+const textStyle = {
+  color: "#cbd5e1",
+  marginBottom: "8px",
+  fontSize: "15px",
+  lineHeight: "24px",
 };

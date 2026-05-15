@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const API = axios.create({
-  baseURL: "http://localhost:5000/api/products",
-});
+const API = "http://localhost:5000/api/ecommerce";
 
 export const getDashboardData = async () => {
 
-  const response = await API.get("/");
+  const response = await axios.get(
+    `${API}/dashboard`
+  );
 
   return response.data;
 };
