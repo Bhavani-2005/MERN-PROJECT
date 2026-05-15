@@ -22,7 +22,7 @@ export default function Products() {
     try {
 
       const res = await axios.get(
-        "http://localhost:5000/api/products"
+       "https://smart-artisan-backend.onrender.com/api/products"
       );
 
       setProducts(res.data);
@@ -56,7 +56,7 @@ export default function Products() {
     try {
 
       await axios.post(
-        "http://localhost:5000/api/products",
+        "https://smart-artisan-backend.onrender.com/api/products",
         {
           ...formData,
           image:
@@ -85,7 +85,7 @@ export default function Products() {
     try {
 
       await axios.delete(
-        `http://localhost:5000/api/products/${id}`
+        `https://smart-artisan-backend.onrender.com/api/products/${id}`
       );
 
       fetchProducts();

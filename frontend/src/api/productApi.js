@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api/products",
+  baseURL: "https://smart-artisan-backend.onrender.com/api/products",
 });
 
 export const getProducts = () => API.get("/");
@@ -15,7 +15,7 @@ export const deleteProduct = (id) =>
 export const updateProduct = async (id, productData) => {
 
   const response = await axios.put(
-    `http://localhost:5000/api/products/${id}`,
+    `https://smart-artisan-backend.onrender.com/api/products/${id}`,
     productData
   );
 
