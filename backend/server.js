@@ -18,10 +18,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/ecommerce", ecommerceRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Smart Artisan API Running");
-});
-
 app.use(
   express.static(
     path.join(__dirname, "../frontend/dist")
