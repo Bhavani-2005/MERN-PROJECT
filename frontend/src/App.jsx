@@ -7,7 +7,7 @@ import Dashboard from "./pages/Dashboard";
 
 import Products from "./pages/Products";
 import Payments from "./pages/Payments";
-import AIInsights from "./pages/AIInsights";
+import AIInsights from "./pages/InsightsPage";
 import Profile from "./pages/Profile";
 
 import ProtectedRoute from "./components/ProtectedRoute";
