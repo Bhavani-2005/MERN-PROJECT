@@ -63,7 +63,7 @@ This project includes:
 ## Clone Repository
 
 ```bash
-git clone https://github.com/Bhavani-2005/MERN-PROJECT.git
+git clone https://github.com/Bhavani-2005/SMART-ARTISAN-ASSISTANT.git
 ```
 
 ## Backend Setup
