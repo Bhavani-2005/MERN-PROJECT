@@ -1,3 +1,5 @@
+import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../api/authApi";
@@ -114,6 +116,42 @@ export default function Login() {
         <button style={buttonStyle}>
           Login
         </button>
+
+        <GoogleLogin
+  onSuccess={async (credentialResponse) => {
+
+    try {
+
+      const res = await axios.post(
+        "https://smart-artisan-assistant.onrender.com/api/auth/google",
+        {
+          credential: credentialResponse.credential,
+        }
+      );
+
+      localStorage.setItem(
+        "token",
+        res.data.token
+      );
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify(res.data.user)
+      );
+
+      navigate("/dashboard");
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  }}
+
+  onError={() => {
+    console.log("Google Login Failed");
+  }}
+/>
 
         <p
           style={{
