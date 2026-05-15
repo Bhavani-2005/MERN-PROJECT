@@ -127,7 +127,7 @@ export default function Payments() {
             minHeight: "100vh",
             background:
               "linear-gradient(135deg,#020617,#08135C)",
-            padding: "40px",
+            padding: "24px",
             color: "white",
             fontFamily:
               "'Poppins', sans-serif",
@@ -151,7 +151,7 @@ export default function Payments() {
 
               <h1
                 style={{
-                  fontSize: "50px",
+                  fontSize: "36px",
                   marginBottom: "10px",
                 }}
               >
@@ -280,7 +280,7 @@ export default function Payments() {
                 "blur(12px)",
               borderRadius:
                 "24px",
-              padding: "25px",
+              padding: "18px",
               overflowX:
                 "auto",
               border:

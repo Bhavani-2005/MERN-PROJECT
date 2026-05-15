@@ -11,6 +11,7 @@ export default function Register() {
   });
 
   const handleChange = (e) => {
+
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -18,6 +19,7 @@ export default function Register() {
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     try {
@@ -36,6 +38,7 @@ export default function Register() {
   };
 
   return (
+
     <div
       style={{
         minHeight: "100vh",
@@ -50,7 +53,7 @@ export default function Register() {
           linear-gradient(135deg, #020617 0%, #020b2d 45%, #071133 100%)
         `,
         position: "relative",
-        fontFamily: "Arial, sans-serif",
+        fontFamily: "'Poppins', sans-serif",
       }}
     >
 
@@ -58,10 +61,10 @@ export default function Register() {
       <div
         style={{
           position: "absolute",
-          width: "500px",
-          height: "500px",
+          width: "450px",
+          height: "450px",
           background:
-            "radial-gradient(circle, rgba(56,189,248,0.28), transparent 70%)",
+            "radial-gradient(circle, rgba(56,189,248,0.25), transparent 70%)",
           filter: "blur(80px)",
           top: "-100px",
           right: "-100px",
@@ -72,11 +75,11 @@ export default function Register() {
       <form
         onSubmit={handleSubmit}
         style={{
-          width: "420px",
+          width: "380px",
           padding: "45px",
           borderRadius: "28px",
           background: "rgba(15, 23, 42, 0.75)",
-          border: "1px solid rgba(227, 238, 244, 0.18)",
+          border: "1px solid rgba(255,255,255,0.08)",
           backdropFilter: "blur(18px)",
           boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
           display: "flex",
@@ -88,26 +91,28 @@ export default function Register() {
       >
 
         {/* Heading */}
-      <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center" }}>
 
-  <p
-    style={{
-      color: "white",
-      fontSize: "20px",
-      margin: 0,
-    }}
-  >
-    Create your Smart Artisan account
-  </p>
+          <p
+            style={{
+              color: "white",
+              fontSize: "20px",
+              margin: 0,
+            }}
+          >
+            Create your Smart Artisan account
+          </p>
 
-</div>
+        </div>
 
         {/* Name */}
         <input
           type="text"
           name="name"
           placeholder="Enter your name"
+          value={formData.name}
           onChange={handleChange}
+          required
           style={inputStyle}
         />
 
@@ -116,7 +121,9 @@ export default function Register() {
           type="email"
           name="email"
           placeholder="Enter your email"
+          value={formData.email}
           onChange={handleChange}
+          required
           style={inputStyle}
         />
 
@@ -125,7 +132,9 @@ export default function Register() {
           type="password"
           name="password"
           placeholder="Enter your password"
+          value={formData.password}
           onChange={handleChange}
+          required
           style={inputStyle}
         />
 
@@ -159,12 +168,13 @@ export default function Register() {
         </p>
 
       </form>
+
     </div>
   );
 }
 
 const inputStyle = {
-  padding: "16px",
+  padding: "14px",
   borderRadius: "14px",
   border: "1px solid rgba(255,255,255,0.08)",
   background: "rgba(255,255,255,0.06)",
@@ -174,7 +184,7 @@ const inputStyle = {
 };
 
 const buttonStyle = {
-  padding: "16px",
+  padding: "14px",
   borderRadius: "14px",
   border: "none",
   background: "#38bdf8",

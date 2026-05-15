@@ -71,7 +71,7 @@ export default function AIInsights() {
             minHeight: "100vh",
             background:
               "linear-gradient(135deg,#020617,#08135C)",
-            padding: "40px",
+            padding: "24px",
             color: "white",
             fontFamily:
               "'Poppins', sans-serif",
@@ -87,7 +87,7 @@ export default function AIInsights() {
 
             <h1
               style={{
-                fontSize: "52px",
+                fontSize: "36px",
                 fontWeight: "700",
                 marginBottom: "10px",
               }}
@@ -135,7 +135,7 @@ export default function AIInsights() {
                     borderRadius:
                       "24px",
 
-                    padding: "28px",
+                    padding: "20px",
 
                     border:
                       "1px solid rgba(255,255,255,0.08)",

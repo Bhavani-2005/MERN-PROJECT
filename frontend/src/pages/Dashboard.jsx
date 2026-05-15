@@ -90,7 +90,7 @@ export default function Dashboard() {
         <div
           style={{
             minHeight: "100vh",
-            padding: "40px",
+            padding: "24px",
             background:
               "linear-gradient(135deg,#020617,#08135C)",
             color: "white",
@@ -115,7 +115,7 @@ export default function Dashboard() {
               <h1
                 style={{
                   margin: 0,
-                  fontSize: "48px",
+                  fontSize: "36px",
                   fontWeight: "700",
                 }}
               >
@@ -401,7 +401,7 @@ function Card({
         backdropFilter:
           "blur(12px)",
         borderRadius: "24px",
-        padding: "28px",
+        padding: "20px",
         border:
           "1px solid rgba(255,255,255,0.08)",
         display: "flex",
@@ -444,7 +444,7 @@ function Card({
         <h1
           style={{
             margin: 0,
-            fontSize: "36px",
+            fontSize: "28px",
           }}
         >
           {value}

@@ -61,13 +61,13 @@ export default function Login() {
           radial-gradient(circle at bottom left, rgba(0,119,255,0.18), transparent 25%),
           linear-gradient(135deg, #020617 0%, #020b2d 45%, #071133 100%)
         `,
-        fontFamily: "Arial, sans-serif",
+        fontFamily: "Poppins, sans-serif",
       }}
     >
       <form
         onSubmit={handleSubmit}
         style={{
-          width: "420px",
+          width: "380px",
           padding: "45px",
           borderRadius: "28px",
           background: "rgba(15, 23, 42, 0.75)",
@@ -94,20 +94,22 @@ export default function Login() {
         </div>
 
         <input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          onChange={handleChange}
-          style={inputStyle}
-        />
+  type="email"
+  name="email"
+  placeholder="Enter your email"
+  value={formData.email}
+  onChange={handleChange}
+  style={inputStyle}
+/>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter your password"
-          onChange={handleChange}
-          style={inputStyle}
-        />
+<input
+  type="password"
+  name="password"
+  placeholder="Enter your password"
+  value={formData.password}
+  onChange={handleChange}
+  style={inputStyle}
+/>
 
         <button style={buttonStyle}>
           Login
@@ -140,7 +142,7 @@ export default function Login() {
 }
 
 const inputStyle = {
-  padding: "16px",
+  padding: "14px",
   borderRadius: "14px",
   border: "1px solid rgba(255,255,255,0.08)",
   background: "rgba(255,255,255,0.06)",
@@ -150,7 +152,7 @@ const inputStyle = {
 };
 
 const buttonStyle = {
-  padding: "16px",
+  padding: "14px",
   borderRadius: "14px",
   border: "none",
   background: "#38bdf8",

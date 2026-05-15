@@ -126,7 +126,7 @@ export default function Products() {
             background:
               "linear-gradient(135deg,#020617,#08135C)",
             color: "white",
-            padding: "40px",
+            padding: "24px",
             fontFamily:
               "'Poppins', sans-serif",
           }}
@@ -149,7 +149,7 @@ export default function Products() {
 
               <h1
                 style={{
-                  fontSize: "48px",
+                  fontSize: "36px",
                   marginBottom: "10px",
                 }}
               >
@@ -348,7 +348,7 @@ export default function Products() {
 
                     style={{
                       width: "100%",
-                      height: "180px",
+                      height: "130px",
                       objectFit:
                         "cover",
                       borderRadius:

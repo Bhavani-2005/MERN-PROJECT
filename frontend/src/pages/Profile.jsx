@@ -65,7 +65,7 @@ export default function Profile() {
             background:
               "linear-gradient(to bottom right, #020B3F, #08135C)",
             color: "white",
-            padding: "40px",
+            padding: "24px",
             fontFamily: "Poppins, sans-serif",
           }}
         >
@@ -79,7 +79,7 @@ export default function Profile() {
 
             <h1
               style={{
-                fontSize: "56px",
+                fontSize: "38px",
                 fontWeight: "700",
               }}
             >
@@ -137,8 +137,8 @@ export default function Profile() {
                 {/* AVATAR */}
                 <div
                   style={{
-                    width: "140px",
-                    height: "140px",
+                    width: "100px",
+                    height: "100px",
                     borderRadius: "50%",
                     background:
                       "linear-gradient(135deg,#38bdf8,#6366f1)",
@@ -159,7 +159,7 @@ export default function Profile() {
 
                   <h2
                     style={{
-                      fontSize: "42px",
+                      fontSize: "30px",
                       marginBottom: "10px",
                     }}
                   >
