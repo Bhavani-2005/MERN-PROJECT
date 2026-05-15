@@ -1,7 +1,7 @@
 import {
+  Users,
   Package,
   CreditCard,
-  Brain,
 } from "lucide-react";
 
 import {
@@ -44,21 +44,21 @@ export default function Dashboard() {
     }
   };
 
-  /* CALCULATIONS */
+  /* KPI CALCULATIONS */
 
-  const totalProducts = products.length;
+  const totalArtisans = products.length;
 
-  const totalQuantity = products.reduce(
+  const totalUnitsProduced = products.reduce(
     (acc, item) =>
-      acc + Number(item.quantity),
+      acc + Number(item.quantity || 0),
     0
   );
 
-  const totalRevenue = products.reduce(
+  const totalWagesPaid = products.reduce(
     (acc, item) =>
       acc +
-      Number(item.price) *
-        Number(item.quantity),
+      Number(item.price || 0) *
+        Number(item.quantity || 0),
     0
   );
 
@@ -68,9 +68,11 @@ export default function Dashboard() {
     .slice(0, 10)
     .map((item) => ({
       name:
-        item.name?.substring(0, 8) || "Product",
-      revenue:
-        item.price * item.quantity,
+        item.name?.substring(0, 10) ||
+        "Item",
+
+      production:
+        Number(item.quantity || 0),
     }));
 
   return (
@@ -81,7 +83,7 @@ export default function Dashboard() {
 
       <div
         style={{
-          marginLeft: "260px",
+          marginLeft: "240px",
         }}
       >
 
@@ -99,14 +101,14 @@ export default function Dashboard() {
           }}
         >
 
-          {/* TOP */}
+          {/* HEADER */}
           <div
             style={{
               display: "flex",
               justifyContent:
                 "space-between",
               alignItems: "center",
-              marginBottom: "40px",
+              marginBottom: "35px",
             }}
           >
 
@@ -115,7 +117,7 @@ export default function Dashboard() {
               <h1
                 style={{
                   margin: 0,
-                  fontSize: "36px",
+                  fontSize: "34px",
                   fontWeight: "700",
                 }}
               >
@@ -125,11 +127,12 @@ export default function Dashboard() {
               <p
                 style={{
                   color: "#94a3b8",
-                  marginTop: "10px",
-                  fontSize: "18px",
+                  marginTop: "8px",
+                  fontSize: "15px",
                 }}
               >
-                Welcome back 👋
+                Monitor artisan production,
+                wages and activities
               </p>
 
             </div>
@@ -137,8 +140,8 @@ export default function Dashboard() {
             {/* AVATAR */}
             <div
               style={{
-                width: "60px",
-                height: "60px",
+                width: "54px",
+                height: "54px",
                 borderRadius: "50%",
                 background:
                   "linear-gradient(135deg,#38bdf8,#6366f1)",
@@ -146,9 +149,9 @@ export default function Dashboard() {
                 alignItems: "center",
                 justifyContent: "center",
                 fontWeight: "700",
-                fontSize: "24px",
+                fontSize: "20px",
                 boxShadow:
-                  "0 10px 30px rgba(56,189,248,0.4)",
+                  "0 10px 25px rgba(56,189,248,0.35)",
               }}
             >
               V
@@ -161,18 +164,18 @@ export default function Dashboard() {
             style={{
               display: "grid",
               gridTemplateColumns:
-                "repeat(auto-fit,minmax(280px,1fr))",
-              gap: "24px",
-              marginBottom: "40px",
+                "repeat(auto-fit,minmax(260px,1fr))",
+              gap: "22px",
+              marginBottom: "35px",
             }}
           >
 
             <Card
-              title="Total Products"
-              value={totalProducts}
+              title="Total Artisans"
+              value={totalArtisans}
               icon={
-                <Package
-                  size={28}
+                <Users
+                  size={24}
                   color="#a855f7"
                 />
               }
@@ -180,11 +183,11 @@ export default function Dashboard() {
             />
 
             <Card
-              title="Total Quantity"
-              value={totalQuantity}
+              title="Units Produced"
+              value={totalUnitsProduced}
               icon={
-                <CreditCard
-                  size={28}
+                <Package
+                  size={24}
                   color="#22d3ee"
                 />
               }
@@ -192,11 +195,11 @@ export default function Dashboard() {
             />
 
             <Card
-              title="Revenue"
-              value={`₹${totalRevenue.toLocaleString()}`}
+              title="Total Wages Paid"
+              value={`₹${totalWagesPaid.toLocaleString()}`}
               icon={
-                <Brain
-                  size={28}
+                <CreditCard
+                  size={24}
                   color="#facc15"
                 />
               }
@@ -205,34 +208,33 @@ export default function Dashboard() {
 
           </div>
 
-          {/* CHART + PRODUCTS */}
+          {/* MAIN SECTION */}
           <div
             style={{
               display: "grid",
               gridTemplateColumns:
                 "2fr 1fr",
-              gap: "24px",
+              gap: "22px",
             }}
           >
 
             {/* CHART */}
-            <div
-              style={glassCard}
-            >
+            <div style={glassCard}>
 
               <h2
                 style={{
                   marginTop: 0,
                   marginBottom: "20px",
+                  fontSize: "22px",
                 }}
               >
-                Revenue Analytics
+                Production Analytics
               </h2>
 
               <div
                 style={{
                   width: "100%",
-                  height: "350px",
+                  height: "330px",
                 }}
               >
 
@@ -254,7 +256,7 @@ export default function Dashboard() {
                     <Tooltip />
 
                     <Bar
-                      dataKey="revenue"
+                      dataKey="production"
                       fill="#38bdf8"
                       radius={[
                         8,
@@ -272,7 +274,7 @@ export default function Dashboard() {
 
             </div>
 
-            {/* RECENT PRODUCTS */}
+            {/* RECENT PRODUCTION */}
             <div
               style={{
                 ...glassCard,
@@ -285,16 +287,17 @@ export default function Dashboard() {
                 style={{
                   marginTop: 0,
                   marginBottom: "20px",
+                  fontSize: "22px",
                 }}
               >
-                Recent Products
+                Recent Production
               </h2>
 
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: "18px",
+                  gap: "16px",
                 }}
               >
 
@@ -306,16 +309,14 @@ export default function Dashboard() {
                       key={product._id}
                       style={{
                         display: "flex",
-                        gap: "15px",
+                        gap: "14px",
                         alignItems:
                           "center",
                         background:
                           "rgba(255,255,255,0.05)",
                         padding: "14px",
                         borderRadius:
-                          "16px",
-                        transition:
-                          "0.3s ease",
+                          "14px",
                       }}
                     >
 
@@ -328,12 +329,12 @@ export default function Dashboard() {
                           product.name
                         }
                         style={{
-                          width: "70px",
-                          height: "70px",
+                          width: "64px",
+                          height: "64px",
                           objectFit:
                             "cover",
                           borderRadius:
-                            "14px",
+                            "12px",
                         }}
                       />
 
@@ -345,7 +346,7 @@ export default function Dashboard() {
                             marginBottom:
                               "6px",
                             fontSize:
-                              "16px",
+                              "15px",
                           }}
                         >
                           {product.name}
@@ -356,12 +357,13 @@ export default function Dashboard() {
                             margin: 0,
                             color:
                               "#94a3b8",
+                            fontSize:
+                              "13px",
                           }}
                         >
-                          ₹
-                          {Number(
-                            product.price
-                          ).toFixed(2)}
+                          Units:
+                          {" "}
+                          {product.quantity}
                         </p>
 
                       </div>
@@ -385,6 +387,7 @@ export default function Dashboard() {
 }
 
 /* KPI CARD */
+
 function Card({
   title,
   value,
@@ -400,14 +403,13 @@ function Card({
           "rgba(11,20,79,0.85)",
         backdropFilter:
           "blur(12px)",
-        borderRadius: "24px",
+        borderRadius: "22px",
         padding: "20px",
         border:
           "1px solid rgba(255,255,255,0.08)",
         display: "flex",
         alignItems: "center",
-        gap: "20px",
-        transition: "0.3s ease",
+        gap: "18px",
         boxShadow:
           "0 10px 30px rgba(0,0,0,0.25)",
       }}
@@ -416,9 +418,9 @@ function Card({
       {/* ICON */}
       <div
         style={{
-          width: "65px",
-          height: "65px",
-          borderRadius: "18px",
+          width: "58px",
+          height: "58px",
+          borderRadius: "16px",
           background: iconBg,
           display: "flex",
           alignItems: "center",
@@ -434,8 +436,9 @@ function Card({
         <p
           style={{
             color: "#94a3b8",
-            marginBottom: "8px",
+            marginBottom: "6px",
             marginTop: 0,
+            fontSize: "14px",
           }}
         >
           {title}
@@ -444,7 +447,7 @@ function Card({
         <h1
           style={{
             margin: 0,
-            fontSize: "28px",
+            fontSize: "26px",
           }}
         >
           {value}
@@ -457,12 +460,13 @@ function Card({
 }
 
 /* GLASS CARD */
+
 const glassCard = {
   background:
     "rgba(11,20,79,0.85)",
   backdropFilter: "blur(12px)",
-  borderRadius: "24px",
-  padding: "25px",
+  borderRadius: "22px",
+  padding: "22px",
   border:
     "1px solid rgba(255,255,255,0.08)",
   boxShadow:

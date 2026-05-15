@@ -92,7 +92,7 @@ export default function AIInsights() {
                 marginBottom: "10px",
               }}
             >
-              AI Insights
+              AI Advisory
             </h1>
 
             <p

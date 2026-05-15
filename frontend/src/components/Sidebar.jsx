@@ -5,11 +5,24 @@ import {
   Brain,
   User,
   LogOut,
+  FileText,
+  FolderOpen,
 } from "lucide-react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+
+    localStorage.removeItem("token");
+
+    localStorage.removeItem("user");
+
+    navigate("/login");
+  };
 
   return (
 
@@ -21,99 +34,130 @@ export default function Sidebar() {
           "linear-gradient(to bottom,#020B3F,#08135C)",
         borderRight:
           "1px solid rgba(255,255,255,0.08)",
-        padding: "30px 20px",
+        padding: "24px 18px",
         position: "fixed",
         left: 0,
         top: 0,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
       }}
     >
 
-      {/* LOGO */}
-      <h1
-        style={{
-          color: "#38bdf8",
-          fontSize: "36px",
-          marginBottom: "50px",
-        }}
-      >
-        Smart Artisan
-      </h1>
+      {/* TOP */}
+      <div>
 
-      {/* MENU */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "14px",
-        }}
-      >
+        {/* LOGO */}
+        <div
+          style={{
+            marginBottom: "40px",
+          }}
+        >
 
-        <SidebarItem
-          icon={<LayoutDashboard size={20} />}
-          text="Dashboard"
-          path="/dashboard"
-        />
+          <h1
+            style={{
+              color: "#38bdf8",
+              fontSize: "26px",
+              marginBottom: "6px",
+              fontWeight: "700",
+            }}
+          >
+            Smart Artisan
+          </h1>
 
-        <SidebarItem
-          icon={<Package size={20} />}
-          text="Products"
-          path="/products"
-        />
+          <p
+            style={{
+              color: "#94a3b8",
+              fontSize: "13px",
+              lineHeight: "20px",
+            }}
+          >
+            Empowering artisan communities
+          </p>
 
-        <SidebarItem
-          icon={<CreditCard size={20} />}
-          text="Payments"
-          path="/payments"
-        />
+        </div>
 
-        <SidebarItem
-          icon={<Brain size={20} />}
-          text="AI Insights"
-          path="/ai"
-        />
+        {/* MENU */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "12px",
+          }}
+        >
 
-        <SidebarItem
-          icon={<User size={20} />}
-          text="Profile"
-          path="/profile"
-        />
+          <SidebarItem
+            icon={<LayoutDashboard size={18} />}
+            text="Dashboard"
+            path="/dashboard"
+          />
+
+          <SidebarItem
+            icon={<Package size={18} />}
+            text="Production"
+            path="/products"
+          />
+
+          <SidebarItem
+            icon={<CreditCard size={18} />}
+            text="Wage Payments"
+            path="/payments"
+          />
+
+          <SidebarItem
+            icon={<Brain size={18} />}
+            text="AI Advisory"
+            path="/ai"
+          />
+
+          <SidebarItem
+            icon={<FileText size={18} />}
+            text="Government Schemes"
+            path="/schemes"
+          />
+
+          <SidebarItem
+            icon={<FolderOpen size={18} />}
+            text="Documents"
+            path="/documents"
+          />
+
+          <SidebarItem
+            icon={<User size={18} />}
+            text="Profile"
+            path="/profile"
+          />
+
+        </div>
 
       </div>
 
       {/* LOGOUT */}
-      <div
+      <button
+        onClick={handleLogout}
         style={{
-          position: "absolute",
-          bottom: "40px",
-          width: "80%",
+          width: "100%",
+          padding: "14px",
+          borderRadius: "12px",
+          border: "none",
+          background:
+            "linear-gradient(135deg,#ef4444,#dc2626)",
+          color: "white",
+          fontWeight: "600",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "10px",
+          cursor: "pointer",
+          fontSize: "14px",
         }}
       >
 
-        <button
-          style={{
-            width: "100%",
-            padding: "16px",
-            borderRadius: "14px",
-            border: "none",
-            background:
-              "linear-gradient(135deg,#ef4444,#dc2626)",
-            color: "white",
-            fontWeight: "600",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "10px",
-            cursor: "pointer",
-          }}
-        >
+        <LogOut size={18} />
 
-          <LogOut size={18} />
+        Logout
 
-          Logout
-
-        </button>
-
-      </div>
+      </button>
 
     </div>
   );
@@ -138,12 +182,14 @@ function SidebarItem({
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "14px",
-          padding: "16px",
-          borderRadius: "14px",
+          gap: "12px",
+          padding: "14px 16px",
+          borderRadius: "12px",
           color: "white",
           background: "#111c63",
           transition: "0.3s",
+          fontSize: "14px",
+          fontWeight: "500",
         }}
       >
 

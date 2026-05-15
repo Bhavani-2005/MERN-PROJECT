@@ -5,6 +5,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 
+import Schemes from "./pages/Schemes";
+import Documents from "./pages/Documents";
 import Products from "./pages/Products";
 import Payments from "./pages/Payments";
 import AIInsights from "./pages/InsightsPage";
@@ -85,6 +87,16 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+  path="/schemes"
+  element={<Schemes />}
+/>
+
+<Route
+  path="/documents"
+  element={<Documents />}
+/>
 
       </Routes>
 
