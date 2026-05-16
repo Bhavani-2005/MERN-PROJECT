@@ -173,3 +173,5 @@
   )}
 
 </div>
+
+export default AIAdvisory;
