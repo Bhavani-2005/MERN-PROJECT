@@ -1,49 +1,66 @@
-import { useState } from "react";
-
 import {
+  User,
   Mail,
-  Briefcase,
-  Calendar,
+  Phone,
+  MapPin,
+  Shield,
   Edit,
-  LogOut,
-  Trash2,
-  Settings,
-  Award,
- Save,
+  Save,
+  Briefcase,
 } from "lucide-react";
 
+import {
+  useState,
+} from "react";
+
 import Sidebar from "../components/Sidebar";
+
 import Navbar from "../components/Navbar";
 
 export default function Profile() {
 
-  const [showEdit, setShowEdit] = useState(false);
+  const user =
+    JSON.parse(
+      localStorage.getItem(
+        "user"
+      )
+    );
 
-  const [user, setUser] = useState({
-    name: "Veena",
-    email: "veena@gmail.com",
-    role: "Full Stack Developer",
-    joined: "May 2026",
-    skills: [
-      "React",
-      "Node.js",
-      "MongoDB",
-      "Express",
-      "Power BI",
-      "Data Analytics",
-      "JavaScript",
-      "DAX",
-    ],
-  });
+  const [profile, setProfile] =
+    useState({
 
-  const [editData, setEditData] = useState(user);
+      name:
+        user?.name ||
+        "A Veena",
 
-  const saveProfile = () => {
+      email:
+        user?.email ||
+        "veena@gmail.com",
 
-    setUser(editData);
+      phone:
+        "+91 9876543210",
 
-    setShowEdit(false);
-  };
+      location:
+        "Hyderabad, India",
+
+      role:
+        user?.role ||
+        "artisan",
+
+      craft:
+        "Handloom Crafts",
+    });
+
+  const handleChange =
+    (e) => {
+
+      setProfile({
+        ...profile,
+
+        [e.target.name]:
+          e.target.value,
+      });
+    };
 
   return (
 
@@ -53,7 +70,7 @@ export default function Profile() {
 
       <div
         style={{
-          marginLeft: "260px",
+          marginLeft: "250px",
         }}
       >
 
@@ -62,25 +79,40 @@ export default function Profile() {
         <div
           style={{
             minHeight: "100vh",
+
+            padding: "18px 22px",
+
             background:
-              "linear-gradient(to bottom right, #020B3F, #08135C)",
+              "linear-gradient(135deg,#020617 0%, #081028 45%, #0b1437 100%)",
+
             color: "white",
-            padding: "24px",
-            fontFamily: "Poppins, sans-serif",
+
+            fontFamily:
+              "Poppins, sans-serif",
           }}
         >
 
-          {/* TITLE */}
+          {/* HEADER */}
+
           <div
             style={{
-              marginBottom: "35px",
+              textAlign:
+                "center",
+
+              marginBottom:
+                "24px",
             }}
           >
 
             <h1
               style={{
-                fontSize: "38px",
-                fontWeight: "700",
+                margin: 0,
+
+                fontSize:
+                  "22px",
+
+                fontWeight:
+                  "700",
               }}
             >
               Profile
@@ -88,383 +120,378 @@ export default function Profile() {
 
             <p
               style={{
-                color: "#94a3b8",
-                marginTop: "10px",
-                fontSize: "18px",
+                color:
+                  "#94a3b8",
+
+                marginTop:
+                  "6px",
+
+                fontSize:
+                  "10px",
               }}
             >
-              Manage your account settings and profile
+              Manage your account
+              information and
+              settings
             </p>
 
           </div>
 
-          {/* MAIN CARD */}
+          {/* PROFILE CARD */}
+
           <div
             style={{
-              background: "rgba(11,20,79,0.85)",
-              backdropFilter: "blur(12px)",
-              borderRadius: "30px",
-              padding: "40px",
+              maxWidth:
+                "900px",
+
+              margin:
+                "0 auto",
+
+              background:
+                "rgba(10,18,60,0.92)",
+
+              borderRadius:
+                "24px",
+
+              padding: "22px",
+
               border:
-                "1px solid rgba(255,255,255,0.08)",
+                "1px solid rgba(255,255,255,0.06)",
+
               boxShadow:
                 "0 10px 30px rgba(0,0,0,0.25)",
-              transition: "all 0.3s ease",
             }}
           >
 
-            {/* TOP SECTION */}
+            {/* TOP */}
+
             <div
               style={{
                 display: "flex",
-                justifyContent: "space-between",
-                flexWrap: "wrap",
-                gap: "30px",
-                marginBottom: "45px",
+
+                alignItems:
+                  "center",
+
+                gap: "18px",
+
+                marginBottom:
+                  "24px",
               }}
             >
 
-              {/* PROFILE INFO */}
               <div
                 style={{
+                  width: "80px",
+
+                  height: "80px",
+
+                  borderRadius:
+                    "22px",
+
+                  background:
+                    "linear-gradient(135deg,#38bdf8,#6366f1)",
+
                   display: "flex",
-                  gap: "28px",
-                  alignItems: "center",
-                  flexWrap: "wrap",
+
+                  alignItems:
+                    "center",
+
+                  justifyContent:
+                    "center",
+
+                  boxShadow:
+                    "0 10px 30px rgba(56,189,248,0.35)",
                 }}
               >
 
-                {/* AVATAR */}
-                <div
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    borderRadius: "50%",
-                    background:
-                      "linear-gradient(135deg,#38bdf8,#6366f1)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "58px",
-                    fontWeight: "700",
-                    boxShadow:
-                      "0 10px 30px rgba(56,189,248,0.4)",
-                  }}
-                >
-                  {user.name.charAt(0)}
-                </div>
-
-                {/* DETAILS */}
-                <div>
-
-                  <h2
-                    style={{
-                      fontSize: "30px",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    {user.name}
-                  </h2>
-
-                  <div style={infoRow}>
-                    <Mail size={18} />
-                    {user.email}
-                  </div>
-
-                  <div style={infoRow}>
-                    <Briefcase size={18} />
-                    {user.role}
-                  </div>
-
-                  <div style={infoRow}>
-                    <Calendar size={18} />
-                    Joined {user.joined}
-                  </div>
-
-                </div>
+                <User
+                  size={34}
+                  color="white"
+                />
 
               </div>
 
-              {/* DASHBOARD STATS */}
-              <div
-                style={{
-                  background:
-                    "linear-gradient(135deg,#111c63,#1e3a8a)",
-                  padding: "28px",
-                  borderRadius: "24px",
-                  minWidth: "320px",
-                  border:
-                    "1px solid rgba(255,255,255,0.08)",
-                }}
-              >
+              <div>
 
-                <h3
+                <h2
                   style={{
-                    marginBottom: "24px",
-                    fontSize: "26px",
-                    fontWeight: "600",
+                    margin: 0,
+
+                    fontSize:
+                      "18px",
+
+                    fontWeight:
+                      "600",
                   }}
                 >
-                  Dashboard Stats
-                </h3>
+                  {
+                    profile.name
+                  }
+                </h2>
 
-                <div style={statCard}>
-                  <span>📦 Total Products</span>
+                <p
+                  style={{
+                    margin:
+                      "6px 0 0 0",
 
-                  <strong
-                    style={{
-                      color: "#38bdf8",
-                    }}
-                  >
-                    3313
-                  </strong>
-                </div>
+                    color:
+                      "#94a3b8",
 
-                <div style={statCard}>
-                  <span>🛒 Total Orders</span>
+                    fontSize:
+                      "10px",
 
-                  <strong
-                    style={{
-                      color: "#22c55e",
-                    }}
-                  >
-                    12,487
-                  </strong>
-                </div>
-
-                <div style={statCard}>
-                  <span>💰 Revenue</span>
-
-                  <strong
-                    style={{
-                      color: "#f59e0b",
-                    }}
-                  >
-                    ₹36L
-                  </strong>
-                </div>
-
-                <div style={statCard}>
-                  <span>🤖 AI Insights</span>
-
-                  <strong
-                    style={{
-                      color: "#a855f7",
-                    }}
-                  >
-                    Active
-                  </strong>
-                </div>
+                    textTransform:
+                      "capitalize",
+                  }}
+                >
+                  {
+                    profile.role
+                  }
+                </p>
 
               </div>
 
             </div>
 
-            {/* SKILLS */}
+            {/* FORM */}
+
             <div
               style={{
-                marginBottom: "45px",
+                display: "grid",
+
+                gridTemplateColumns:
+                  "1fr 1fr",
+
+                gap: "16px",
               }}
             >
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  marginBottom: "20px",
-                }}
-              >
+              <InputField
+                icon={
+                  <User
+                    size={15}
+                  />
+                }
 
-                <Award
-                  size={26}
-                  color="#38bdf8"
-                />
+                label="Full Name"
 
-                <h3
-                  style={{
-                    fontSize: "30px",
-                  }}
-                >
-                  Skills & Expertise
-                </h3>
+                name="name"
 
-              </div>
+                value={
+                  profile.name
+                }
 
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "14px",
-                }}
-              >
+                onChange={
+                  handleChange
+                }
+              />
 
-                {user.skills.map((skill, index) => (
+              <InputField
+                icon={
+                  <Mail
+                    size={15}
+                  />
+                }
 
-                  <div
-                    key={index}
-                    style={{
-                      padding: "14px 22px",
-                      borderRadius: "16px",
-                      background:
-                        "rgba(255,255,255,0.05)",
-                      border:
-                        "1px solid rgba(255,255,255,0.08)",
-                      fontSize: "15px",
-                    }}
-                  >
-                    {skill}
-                  </div>
+                label="Email"
 
-                ))}
+                name="email"
 
-              </div>
+                value={
+                  profile.email
+                }
+
+                onChange={
+                  handleChange
+                }
+              />
+
+              <InputField
+                icon={
+                  <Phone
+                    size={15}
+                  />
+                }
+
+                label="Phone"
+
+                name="phone"
+
+                value={
+                  profile.phone
+                }
+
+                onChange={
+                  handleChange
+                }
+              />
+
+              <InputField
+                icon={
+                  <MapPin
+                    size={15}
+                  />
+                }
+
+                label="Location"
+
+                name="location"
+
+                value={
+                  profile.location
+                }
+
+                onChange={
+                  handleChange
+                }
+              />
+
+              <InputField
+                icon={
+                  <Shield
+                    size={15}
+                  />
+                }
+
+                label="Role"
+
+                name="role"
+
+                value={
+                  profile.role
+                }
+
+                onChange={
+                  handleChange
+                }
+              />
+
+              <InputField
+                icon={
+                  <Briefcase
+                    size={15}
+                  />
+                }
+
+                label="Craft Type"
+
+                name="craft"
+
+                value={
+                  profile.craft
+                }
+
+                onChange={
+                  handleChange
+                }
+              />
 
             </div>
 
             {/* BUTTONS */}
+
             <div
               style={{
                 display: "flex",
-                gap: "18px",
-                flexWrap: "wrap",
+
+                justifyContent:
+                  "flex-end",
+
+                gap: "12px",
+
+                marginTop:
+                  "24px",
               }}
             >
 
               <button
-                onClick={() =>
-                  setShowEdit(true)
-                }
-                style={editBtn}
+                style={{
+                  height: "40px",
+
+                  padding:
+                    "0 16px",
+
+                  border: "none",
+
+                  borderRadius:
+                    "12px",
+
+                  background:
+                    "rgba(255,255,255,0.05)",
+
+                  color:
+                    "white",
+
+                  display: "flex",
+
+                  alignItems:
+                    "center",
+
+                  gap: "8px",
+
+                  cursor:
+                    "pointer",
+
+                  fontSize:
+                    "11px",
+                }}
               >
-                <Edit size={18} />
+
+                <Edit
+                  size={14}
+                />
+
                 Edit Profile
+
               </button>
 
-              <button style={settingsBtn}>
-                <Settings size={18} />
-                Settings
-              </button>
+              <button
+                style={{
+                  height: "40px",
 
-              <button style={deleteBtn}>
-                <Trash2 size={18} />
-                Delete Account
-              </button>
+                  padding:
+                    "0 16px",
 
-              <button style={logoutBtn}>
-                <LogOut size={18} />
-                Logout
+                  border: "none",
+
+                  borderRadius:
+                    "12px",
+
+                  background:
+                    "linear-gradient(135deg,#38bdf8,#0ea5e9)",
+
+                  color:
+                    "#04111f",
+
+                  fontWeight:
+                    "700",
+
+                  display: "flex",
+
+                  alignItems:
+                    "center",
+
+                  gap: "8px",
+
+                  cursor:
+                    "pointer",
+
+                  fontSize:
+                    "11px",
+                }}
+              >
+
+                <Save
+                  size={14}
+                />
+
+                Save Changes
+
               </button>
 
             </div>
 
           </div>
-
-          {/* EDIT MODAL */}
-          {showEdit && (
-
-            <div
-              style={{
-                position: "fixed",
-                inset: 0,
-                background:
-                  "rgba(0,0,0,0.7)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                zIndex: 1000,
-              }}
-            >
-
-              <div
-                style={{
-                  width: "450px",
-                  background: "#0B144F",
-                  padding: "35px",
-                  borderRadius: "24px",
-                }}
-              >
-
-                <h2
-                  style={{
-                    marginBottom: "25px",
-                    fontSize: "32px",
-                  }}
-                >
-                  Edit Profile
-                </h2>
-
-                <input
-                  type="text"
-                  value={editData.name}
-                  onChange={(e) =>
-                    setEditData({
-                      ...editData,
-                      name: e.target.value,
-                    })
-                  }
-                  placeholder="Name"
-                  style={inputStyle}
-                />
-
-                <input
-                  type="email"
-                  value={editData.email}
-                  onChange={(e) =>
-                    setEditData({
-                      ...editData,
-                      email: e.target.value,
-                    })
-                  }
-                  placeholder="Email"
-                  style={inputStyle}
-                />
-
-                <input
-                  type="text"
-                  value={editData.role}
-                  onChange={(e) =>
-                    setEditData({
-                      ...editData,
-                      role: e.target.value,
-                    })
-                  }
-                  placeholder="Role"
-                  style={inputStyle}
-                />
-
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "14px",
-                    marginTop: "20px",
-                  }}
-                >
-
-                  <button
-                    onClick={saveProfile}
-                    style={editBtn}
-                  >
-                    <Save size={18} />
-                    Save
-                  </button>
-
-                  <button
-                    onClick={() =>
-                      setShowEdit(false)
-                    }
-                    style={deleteBtn}
-                  >
-                    Cancel
-                  </button>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          )}
 
         </div>
 
@@ -474,93 +501,90 @@ export default function Profile() {
   );
 }
 
-/* STYLES */
+/* INPUT FIELD */
 
-const infoRow = {
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  color: "#cbd5e1",
-  marginBottom: "12px",
-  fontSize: "16px",
-};
+function InputField({
+  icon,
+  label,
+  name,
+  value,
+  onChange,
+}) {
 
-const inputStyle = {
-  width: "100%",
-  padding: "16px",
-  marginBottom: "16px",
-  borderRadius: "14px",
-  border: "1px solid #374151",
-  background: "#111c63",
-  color: "white",
-  fontSize: "15px",
-};
+  return (
 
-const editBtn = {
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  padding: "15px 26px",
-  borderRadius: "14px",
-  border: "none",
-  background:
-    "linear-gradient(135deg,#38bdf8,#0ea5e9)",
-  color: "#020617",
-  fontWeight: "700",
-  cursor: "pointer",
-};
+    <div>
 
-const settingsBtn = {
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  padding: "15px 26px",
-  borderRadius: "14px",
-  border: "none",
-  background:
-    "linear-gradient(135deg,#8b5cf6,#6366f1)",
-  color: "white",
-  fontWeight: "700",
-  cursor: "pointer",
-};
+      <p
+        style={{
+          marginBottom:
+            "6px",
 
-const deleteBtn = {
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  padding: "15px 26px",
-  borderRadius: "14px",
-  border: "none",
-  background:
-    "linear-gradient(135deg,#ef4444,#dc2626)",
-  color: "white",
-  fontWeight: "700",
-  cursor: "pointer",
-};
+          fontSize:
+            "10px",
 
-const logoutBtn = {
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  padding: "15px 26px",
-  borderRadius: "14px",
-  border: "none",
-  background:
-    "linear-gradient(135deg,#f59e0b,#f97316)",
-  color: "white",
-  fontWeight: "700",
-  cursor: "pointer",
-};
+          color:
+            "#94a3b8",
+        }}
+      >
+        {label}
+      </p>
 
-const statCard = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  padding: "18px 20px",
-  background:
-    "rgba(255,255,255,0.06)",
-  borderRadius: "18px",
-  marginBottom: "18px",
-  color: "white",
-  fontSize: "16px",
-};
+      <div
+        style={{
+          height: "42px",
+
+          borderRadius:
+            "12px",
+
+          background:
+            "rgba(255,255,255,0.05)",
+
+          border:
+            "1px solid rgba(255,255,255,0.05)",
+
+          display: "flex",
+
+          alignItems:
+            "center",
+
+          padding:
+            "0 12px",
+
+          gap: "8px",
+        }}
+      >
+
+        {icon}
+
+        <input
+          type="text"
+
+          name={name}
+
+          value={value}
+
+          onChange={onChange}
+
+          style={{
+            flex: 1,
+
+            background:
+              "transparent",
+
+            border: "none",
+
+            outline: "none",
+
+            color: "white",
+
+            fontSize:
+              "11px",
+          }}
+        />
+
+      </div>
+
+    </div>
+  );
+}

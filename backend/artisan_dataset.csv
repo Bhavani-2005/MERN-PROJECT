@@ -1,0 +1,101 @@
+Product_ID,Artisan_Name,Cluster,Product_Name,Craft_Category,Units_Produced,Selling_Price,Revenue,Inventory_Status
+ART001,Priyansh Kuruvilla,Nalgonda,Leather Wallet,Leather Craft,7,4802,33614,High Demand
+ART002,Dhanuk Sarraf,Khammam,Printed Fabric,Textile,5,1433,7165,High Demand
+ART003,Neysa Atwal,Siddipet,Traditional Dupatta,Handloom,45,1270,57150,Available
+ART004,Kanav Bhatnagar,Nizamabad,Terracotta Bowl,Pottery,42,3891,163422,High Demand
+ART005,Elakshi Issac,Karimnagar,Handmade Kurti,Embroidery,21,941,19761,Available
+ART006,Kaira Sastry,Nalgonda,Cotton Bedsheet,Textile,6,4866,29196,Available
+ART007,Ela Bhatti,Siddipet,Decorative Vase,Pottery,17,1309,22253,Low Stock
+ART008,Ahana  Mammen,Nalgonda,Handmade Gift Box,Handicrafts,47,1210,56870,Low Stock
+ART009,Amira Bansal,Medak,Handloom Saree,Handloom,48,2589,124272,Low Stock
+ART010,Kaira Saraf,Khammam,Handmade Gift Box,Handicrafts,25,1266,31650,Available
+ART011,Lakshay Raju,Siddipet,Decorative Vase,Pottery,15,2593,38895,Low Stock
+ART012,Yashvi Dhingra,Nalgonda,Wooden Elephant,Wood Craft,45,2700,121500,Available
+ART013,Arnav Sarin,Siddipet,Handloom Saree,Handloom,23,3436,79028,Available
+ART014,Parinaaz Sachdeva,Hyderabad,Handmade Gift Box,Handicrafts,31,3675,113925,Low Stock
+ART015,Eva Bhargava,Siddipet,Terracotta Bowl,Pottery,7,4754,33278,Low Stock
+ART016,Rati Sinha,Khammam,Cotton Bedsheet,Textile,9,3455,31095,Available
+ART017,Ojas Dhar,Khammam,Designer Saree,Textile,8,943,7544,High Demand
+ART018,Hansh Bawa,Medak,Leather Wallet,Leather Craft,15,2265,33975,Low Stock
+ART019,Damini Gaba,Nizamabad,Embroidery Dupatta,Embroidery,50,1649,82450,Low Stock
+ART020,Raghav Sheth,Medak,Designer Saree,Textile,46,255,11730,Available
+ART021,Samarth Rajagopal,Warangal,Decorative Showpiece,Handicrafts,48,215,10320,Available
+ART022,Jhanvi Khurana,Siddipet,Decorative Showpiece,Handicrafts,12,3137,37644,Low Stock
+ART023,Emir Ben,Nalgonda,Handmade Necklace,Jewelry,31,2110,65410,Low Stock
+ART024,Shanaya Wadhwa,Mahabubnagar,Terracotta Bowl,Pottery,45,2631,118395,High Demand
+ART025,Hansh Sule,Adilabad,Traditional Dupatta,Handloom,8,1738,13904,Low Stock
+ART026,Nehmat Mangat,Nizamabad,Printed Fabric,Textile,46,209,9614,Available
+ART027,Taran Loyal,Medak,Designer Saree,Textile,24,545,13080,Available
+ART028,Samar Bhalla,Mahabubnagar,Handloom Saree,Handloom,33,437,14421,Low Stock
+ART029,Tejas Batra,Mahabubnagar,Cotton Shawl,Handloom,6,4020,24120,Low Stock
+ART030,Myra Talwar,Karimnagar,Printed Fabric,Textile,47,4110,193170,Low Stock
+ART031,Urvi Baral,Medak,Bamboo Basket,Bamboo Craft,26,2063,53638,High Demand
+ART032,Anahi Sundaram,Siddipet,Beaded Earrings,Jewelry,10,1754,17540,Available
+ART033,Gatik Chakrabarti,Siddipet,Cotton Shawl,Handloom,11,3321,36531,Available
+ART034,Taimur Ratti,Hyderabad,Decor Item,Clay Art,41,3602,147682,Available
+ART035,Amani Kaul,Karimnagar,Terracotta Bowl,Pottery,40,4811,192440,High Demand
+ART036,Romil Choudhary,Adilabad,Handmade Necklace,Jewelry,32,2353,75296,High Demand
+ART037,Farhan Sekhon,Nalgonda,Wooden Toy,Wood Craft,8,2902,23216,Available
+ART038,Baiju Dani,Nalgonda,Craft Item,Handicrafts,7,1820,12740,High Demand
+ART039,Myra Chaudhuri,Siddipet,Handmade Belt,Leather Craft,36,4135,148860,High Demand
+ART040,Amira Deo,Karimnagar,Clay Lamp,Clay Art,30,1969,59070,Low Stock
+ART041,Parinaaz Sagar,Siddipet,Decor Item,Clay Art,21,3751,78771,High Demand
+ART042,Misha Mann,Hyderabad,Clay Lamp,Clay Art,38,1786,67868,Low Stock
+ART043,Inaaya  Gole,Khammam,Storage Tray,Bamboo Craft,37,4055,150035,Low Stock
+ART044,Aarav Karnik,Nizamabad,Storage Tray,Bamboo Craft,43,1539,66177,Low Stock
+ART045,Keya Sandhu,Nizamabad,Beaded Earrings,Jewelry,45,2605,117225,Low Stock
+ART046,Damini Desai,Medak,Traditional Dupatta,Handloom,16,4203,67248,Available
+ART047,Kiaan Chaudhuri,Medak,Embroidery Dupatta,Embroidery,11,3500,38500,Low Stock
+ART048,Raunak Mandal,Nalgonda,Wall Decor,Wood Craft,9,2121,19089,Low Stock
+ART049,Hiran Sule,Karimnagar,Handmade Belt,Leather Craft,27,3477,93879,Available
+ART050,Abram Manda,Nalgonda,Leather Wallet,Leather Craft,28,2691,75348,High Demand
+ART051,Raghav Shah,Nalgonda,Handloom Saree,Handloom,37,2358,87246,High Demand
+ART052,Neysa Sachar,Karimnagar,Bamboo Lamp,Bamboo Craft,20,2566,51320,Available
+ART053,Seher Sanghvi,Siddipet,Leather Bag,Leather Craft,29,3112,90248,Available
+ART054,Rania Bhasin,Adilabad,Handmade Belt,Leather Craft,18,724,13032,Available
+ART055,Shamik Dada,Nizamabad,Clay Pot Set,Pottery,47,2930,137710,High Demand
+ART056,Farhan Saha,Mahabubnagar,Wooden Elephant,Wood Craft,28,1177,32956,High Demand
+ART057,Trisha Thakkar,Adilabad,Craft Item,Handicrafts,50,693,34650,Available
+ART058,Azad Ranganathan,Nalgonda,Traditional Dupatta,Handloom,39,1794,69966,Available
+ART059,Armaan Aurora,Nalgonda,Wooden Elephant,Wood Craft,36,4247,152892,Low Stock
+ART060,Vritika Basak,Hyderabad,Wooden Toy,Wood Craft,28,2142,59976,High Demand
+ART061,Lakshit Bawa,Siddipet,Traditional Dupatta,Handloom,15,234,3510,Low Stock
+ART062,Samaira Verma,Medak,Storage Tray,Bamboo Craft,7,4384,30688,Low Stock
+ART063,Oorja Ben,Hyderabad,Traditional Dupatta,Handloom,37,4286,158582,Low Stock
+ART064,Biju Zachariah,Adilabad,Designer Saree,Textile,39,2943,114777,Low Stock
+ART065,Ranbir Kota,Medak,Bamboo Lamp,Bamboo Craft,23,1747,40181,Available
+ART066,Divij Keer,Hyderabad,Leather Wallet,Leather Craft,29,1104,32016,High Demand
+ART067,Charvi Ray,Nizamabad,Decor Item,Clay Art,39,1255,48945,Low Stock
+ART068,Ehsaan Bandi,Khammam,Clay Sculpture,Clay Art,37,1819,67303,Available
+ART069,Tiya Bajaj,Siddipet,Decorative Showpiece,Handicrafts,31,2805,86955,High Demand
+ART070,Prisha Mangat,Khammam,Decorative Vase,Pottery,44,3611,158884,High Demand
+ART071,Ivana Ramachandran,Karimnagar,Wall Decor,Wood Craft,32,1924,61568,Low Stock
+ART072,Kimaya Lal,Hyderabad,Designer Saree,Textile,39,1702,66378,High Demand
+ART073,Lakshay Bhatnagar,Khammam,Handmade Kurti,Embroidery,46,3231,148626,Low Stock
+ART074,Manjari Jain,Karimnagar,Handmade Gift Box,Handicrafts,30,1470,44100,Low Stock
+ART075,Raunak Joshi,Adilabad,Cotton Shawl,Handloom,15,3690,55350,Available
+ART076,Jhanvi Mammen,Hyderabad,Leather Wallet,Leather Craft,12,4996,59952,Low Stock
+ART077,Kashvi Ravi,Hyderabad,Bamboo Lamp,Bamboo Craft,49,491,24059,Low Stock
+ART078,Vidur Goda,Warangal,Bamboo Basket,Bamboo Craft,8,3425,27400,High Demand
+ART079,Jayant Sandal,Khammam,Decor Item,Clay Art,48,3258,156384,High Demand
+ART080,Ranbir Kuruvilla,Adilabad,Handmade Kurti,Embroidery,29,1986,57594,Available
+ART081,Tanya Krishna,Nizamabad,Decorative Showpiece,Handicrafts,34,2588,87992,Available
+ART082,Badal Jhaveri,Nalgonda,Bamboo Lamp,Bamboo Craft,23,237,5451,Low Stock
+ART083,Jayan Sinha,Medak,Handmade Gift Box,Handicrafts,18,4307,77526,High Demand
+ART084,Yuvaan Ghose,Medak,Handmade Necklace,Jewelry,37,1967,72779,Low Stock
+ART085,Tanya Vohra,Adilabad,Handloom Saree,Handloom,34,483,16422,Available
+ART086,Diya Verma,Nizamabad,Cotton Bedsheet,Textile,13,2584,33592,Available
+ART087,Saira Walla,Hyderabad,Designer Cushion,Embroidery,26,817,21242,High Demand
+ART088,Keya Kothari,Karimnagar,Bamboo Basket,Bamboo Craft,41,4391,180031,Low Stock
+ART089,Arnav Rana,Adilabad,Designer Saree,Textile,16,4972,79552,Available
+ART090,Aaina Ray,Adilabad,Wall Decor,Wood Craft,22,4134,90948,High Demand
+ART091,Samar Biswas,Adilabad,Handmade Belt,Leather Craft,42,2942,123564,Low Stock
+ART092,Onkar Sagar,Siddipet,Designer Saree,Textile,50,4385,219250,High Demand
+ART093,Tejas Sridhar,Mahabubnagar,Handmade Belt,Leather Craft,14,1138,15932,Available
+ART094,Taran Devan,Mahabubnagar,Bamboo Basket,Bamboo Craft,11,2454,26994,Available
+ART095,Purab Deshmukh,Nalgonda,Embroidery Dupatta,Embroidery,24,3579,85896,High Demand
+ART096,Rohan Raju,Karimnagar,Handloom Saree,Handloom,36,1112,40032,High Demand
+ART097,Anahita Sampath,Khammam,Bamboo Basket,Bamboo Craft,37,4191,155067,High Demand
+ART098,Jiya Boase,Karimnagar,Handmade Belt,Leather Craft,19,3578,67982,High Demand
+ART099,Devansh Gokhale,Hyderabad,Leather Wallet,Leather Craft,50,3229,161450,Low Stock
+ART100,Navya Aurora,Khammam,Handmade Belt,Leather Craft,11,4399,48389,High Demand

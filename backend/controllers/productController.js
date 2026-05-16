@@ -1,62 +1,80 @@
-const Product = require("../models/Product");
+const Product =
+  require("../models/Product");
 
-// GET PRODUCTS
-const getProducts = async (req, res) => {
+/* GET PRODUCTS */
+const getProducts =
+  async (req, res) => {
 
-  try {
+    try {
 
-    const products = await Product.find();
+      const products =
+        await Product.find();
 
-    res.json(products);
+      res.json(products);
 
-  } catch (error) {
+    } catch (error) {
 
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
+      res.status(500).json({
+        message:
+          error.message,
+      });
+    }
+  };
 
-// ADD PRODUCT
-const addProduct = async (req, res) => {
+/* CREATE PRODUCT */
+const createProduct =
+  async (req, res) => {
 
-  try {
+    try {
 
-    const product = new Product(req.body);
+      const product =
+        await Product.create(
+          req.body
+        );
 
-    await product.save();
+      res.status(201).json(
+        product
+      );
 
-    res.status(201).json(product);
+    } catch (error) {
 
-  } catch (error) {
+      console.log(error);
 
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
+      res.status(500).json({
+        message:
+          error.message,
+      });
+    }
+  };
 
-// DELETE PRODUCT
-const deleteProduct = async (req, res) => {
+/* DELETE PRODUCT */
+const deleteProduct =
+  async (req, res) => {
 
-  try {
+    try {
 
-    await Product.findByIdAndDelete(req.params.id);
+      await Product.findByIdAndDelete(
+        req.params.id
+      );
 
-    res.json({
-      message: "Product deleted",
-    });
+      res.json({
+        message:
+          "Product deleted",
+      });
 
-  } catch (error) {
+    } catch (error) {
 
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
+      res.status(500).json({
+        message:
+          error.message,
+      });
+    }
+  };
 
 module.exports = {
+
   getProducts,
-  addProduct,
+  createProduct,
   deleteProduct,
+
 };

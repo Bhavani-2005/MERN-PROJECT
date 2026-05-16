@@ -1,89 +1,67 @@
-import { useEffect, useState } from "react";
+import {
+  useState,
+} from "react";
 
 import Sidebar from "../components/Sidebar";
+
 import Navbar from "../components/Navbar";
+
+import {
+  Wallet,
+  Clock3,
+  Save,
+  IndianRupee,
+} from "lucide-react";
 
 export default function Payments() {
 
   const [payments, setPayments] =
-    useState([]);
-
-  const [search, setSearch] =
-    useState("");
-
-  useEffect(() => {
-
-    /* DUMMY PAYMENTS */
-    setPayments([
+    useState([
       {
-        id: 1,
-        transactionId:
-          "TXN10231",
-        customer:
-          "Andrew Allen",
-        product:
-          "Xerox 1967",
-        amount: 1550,
-        status: "Success",
-        date: "14 May 2026",
-      },
-
-      {
-        id: 2,
-        transactionId:
-          "TXN10232",
-        customer:
-          "John Smith",
-        product:
-          "Panasonic Speaker",
-        amount: 4200,
+        artisan: "ruthvik",
+        cluster: "hyderabad",
+        craft: "Terracotta",
+        units: 12,
+        wage: 90,
+        total: 1080,
         status: "Pending",
-        date: "13 May 2026",
       },
 
       {
-        id: 3,
-        transactionId:
-          "TXN10233",
-        customer: "Veena",
-        product:
-          "Office Chair",
-        amount: 8999,
-        status: "Success",
-        date: "12 May 2026",
-      },
-
-      {
-        id: 4,
-        transactionId:
-          "TXN10234",
-        customer: "David",
-        product: "Laptop",
-        amount: 65000,
-        status: "Failed",
-        date: "11 May 2026",
+        artisan: "A Veena",
+        cluster: "warangal",
+        craft: "Handloom",
+        units: 22,
+        wage: 140,
+        total: 3080,
+        status: "Paid",
       },
     ]);
 
-  }, []);
+  const [formData, setFormData] =
+    useState({
+      artisan: "",
+      cluster: "",
+      craft: "",
+      units: "",
+      wage: "",
+      status: "Paid",
+    });
 
-  /* TOTAL REVENUE */
-  const totalAmount =
-    payments.reduce(
+  /* TOTALS */
+
+  const totalPaid = payments
+    .filter(
+      (item) =>
+        item.status === "Paid"
+    )
+
+    .reduce(
       (acc, item) =>
-        acc + item.amount,
+        acc + item.total,
       0
     );
 
-  /* SUCCESS COUNT */
-  const successPayments =
-    payments.filter(
-      (item) =>
-        item.status ===
-        "Success"
-    ).length;
-
-  /* PENDING COUNT */
   const pendingPayments =
     payments.filter(
       (item) =>
@@ -91,22 +69,49 @@ export default function Payments() {
         "Pending"
     ).length;
 
-  /* SEARCH FILTER */
-  const filteredPayments =
-    payments.filter(
-      (payment) =>
-        payment.customer
-          .toLowerCase()
-          .includes(
-            search.toLowerCase()
-          ) ||
+  /* CHANGE */
 
-        payment.product
-          .toLowerCase()
-          .includes(
-            search.toLowerCase()
-          )
-    );
+  const handleChange = (e) => {
+
+    setFormData({
+      ...formData,
+
+      [e.target.name]:
+        e.target.value,
+    });
+  };
+
+  /* SAVE */
+
+  const handleSave = () => {
+
+    const total =
+
+      Number(formData.units) *
+
+      Number(formData.wage);
+
+    const newPayment = {
+
+      ...formData,
+
+      total,
+    };
+
+    setPayments([
+      newPayment,
+      ...payments,
+    ]);
+
+    setFormData({
+      artisan: "",
+      cluster: "",
+      craft: "",
+      units: "",
+      wage: "",
+      status: "Paid",
+    });
+  };
 
   return (
 
@@ -116,7 +121,7 @@ export default function Payments() {
 
       <div
         style={{
-          marginLeft: "260px",
+          marginLeft: "250px",
         }}
       >
 
@@ -125,174 +130,342 @@ export default function Payments() {
         <div
           style={{
             minHeight: "100vh",
+
+            padding: "18px 22px",
+
             background:
-              "linear-gradient(135deg,#020617,#08135C)",
-            padding: "24px",
+              "linear-gradient(135deg,#020617 0%, #081028 45%, #0b1437 100%)",
+
             color: "white",
+
             fontFamily:
-              "'Poppins', sans-serif",
+              "Poppins, sans-serif",
           }}
         >
 
-          {/* TOP */}
+          {/* HEADER */}
+
           <div
             style={{
-              display: "flex",
-              justifyContent:
-                "space-between",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: "20px",
-              marginBottom: "35px",
+              marginBottom: "20px",
             }}
           >
 
-            <div>
-
-              <h1
-                style={{
-                  fontSize: "36px",
-                  marginBottom: "10px",
-                }}
-              >
-                Payments
-              </h1>
-
-              <p
-                style={{
-                  color: "#94a3b8",
-                  fontSize: "18px",
-                }}
-              >
-                Track all transactions
-              </p>
-
-            </div>
-
-            {/* SEARCH */}
-            <input
-              type="text"
-              placeholder="Search customer or product..."
-              value={search}
-              onChange={(e) =>
-                setSearch(
-                  e.target.value
-                )
-              }
+            <h1
               style={{
-                width: "360px",
-                padding: "16px",
-                borderRadius:
-                  "16px",
-                border:
-                  "1px solid rgba(255,255,255,0.08)",
-                background:
-                  "rgba(11,20,79,0.85)",
-                color: "white",
-                fontSize: "16px",
-                outline: "none",
+                margin: 0,
+
+                fontSize: "22px",
+
+                fontWeight:
+                  "700",
               }}
+            >
+              Wage Payments
+            </h1>
+
+            <p
+              style={{
+                color: "#94a3b8",
+
+                marginTop: "6px",
+
+                fontSize: "12px",
+              }}
+            >
+              Manage artisan wages
+              and production payments
+            </p>
+
+          </div>
+
+          {/* KPI */}
+
+          <div
+            style={{
+              display: "grid",
+
+              gridTemplateColumns:
+                "repeat(auto-fit,minmax(260px,1fr))",
+
+              gap: "18px",
+
+              marginBottom: "22px",
+            }}
+          >
+
+            <KpiCard
+              title="Total Wages Paid"
+              value={`₹${totalPaid.toLocaleString()}`}
+              icon={
+                <Wallet
+                  size={18}
+                  color="#38bdf8"
+                />
+              }
+              bg="rgba(56,189,248,0.12)"
+            />
+
+            <KpiCard
+              title="Pending Payments"
+              value={pendingPayments}
+              icon={
+                <Clock3
+                  size={18}
+                  color="#facc15"
+                />
+              }
+              bg="rgba(250,204,21,0.12)"
             />
 
           </div>
 
-          {/* KPI CARDS */}
+          {/* FORM */}
+
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fit,minmax(250px,1fr))",
-              gap: "25px",
-              marginBottom: "40px",
+              background:
+                "rgba(10,18,60,0.92)",
+
+              borderRadius:
+                "22px",
+
+              padding: "20px",
+
+              marginBottom:
+                "22px",
+
+              border:
+                "1px solid rgba(255,255,255,0.06)",
             }}
           >
 
+            <div
+              style={{
+                display: "grid",
+
+                gridTemplateColumns:
+                  "repeat(3,1fr)",
+
+                gap: "14px",
+
+                marginBottom:
+                  "16px",
+              }}
+            >
+
+              <InputField
+                name="artisan"
+                placeholder="Artisan Name"
+                value={
+                  formData.artisan
+                }
+                onChange={
+                  handleChange
+                }
+              />
+
+              <InputField
+                name="cluster"
+                placeholder="Cluster"
+                value={
+                  formData.cluster
+                }
+                onChange={
+                  handleChange
+                }
+              />
+
+              <InputField
+                name="craft"
+                placeholder="Craft"
+                value={
+                  formData.craft
+                }
+                onChange={
+                  handleChange
+                }
+              />
+
+              <InputField
+                name="units"
+                placeholder="Units Produced"
+                value={
+                  formData.units
+                }
+                onChange={
+                  handleChange
+                }
+              />
+
+              <InputField
+                name="wage"
+                placeholder="Wage Per Unit"
+                value={
+                  formData.wage
+                }
+                onChange={
+                  handleChange
+                }
+              />
+
+              <select
+                name="status"
+
+                value={
+                  formData.status
+                }
+
+                onChange={
+                  handleChange
+                }
+
+                style={
+                  inputStyle
+                }
+              >
+
+                <option>
+                  Paid
+                </option>
+
+                <option>
+                  Pending
+                </option>
+
+              </select>
+
+            </div>
+
             {/* TOTAL */}
+
             <div
-              style={cardStyle}
+              style={{
+                display: "flex",
+
+                justifyContent:
+                  "space-between",
+
+                alignItems:
+                  "center",
+
+                marginTop: "12px",
+              }}
             >
 
-              <h3
-                style={cardTitle}
-              >
-                Total Revenue
-              </h3>
+              <div
+                style={{
+                  display: "flex",
 
-              <h1
-                style={cardValue}
+                  alignItems:
+                    "center",
+
+                  gap: "8px",
+
+                  fontSize:
+                    "16px",
+
+                  fontWeight:
+                    "700",
+                }}
               >
+
+                <IndianRupee
+                  size={18}
+                />
+
+                Total Wage:
                 ₹
-                {totalAmount.toLocaleString()}
-              </h1>
+                {(
+                  Number(
+                    formData.units ||
+                      0
+                  ) *
 
-            </div>
+                  Number(
+                    formData.wage ||
+                      0
+                  )
+                ).toLocaleString()}
 
-            {/* SUCCESS */}
-            <div
-              style={cardStyle}
-            >
+              </div>
 
-              <h3
-                style={cardTitle}
-              >
-                Successful Payments
-              </h3>
-
-              <h1
-                style={cardValue}
-              >
-                {
-                  successPayments
+              <button
+                onClick={
+                  handleSave
                 }
-              </h1>
 
-            </div>
+                style={{
+                  height: "44px",
 
-            {/* PENDING */}
-            <div
-              style={cardStyle}
-            >
+                  padding:
+                    "0 22px",
 
-              <h3
-                style={cardTitle}
+                  border: "none",
+
+                  borderRadius:
+                    "14px",
+
+                  background:
+                    "linear-gradient(135deg,#38bdf8,#0ea5e9)",
+
+                  color:
+                    "#04111f",
+
+                  fontWeight:
+                    "700",
+
+                  fontSize:
+                    "13px",
+
+                  display: "flex",
+
+                  alignItems:
+                    "center",
+
+                  gap: "8px",
+
+                  cursor:
+                    "pointer",
+                }}
               >
-                Pending Payments
-              </h3>
 
-              <h1
-                style={cardValue}
-              >
-                {
-                  pendingPayments
-                }
-              </h1>
+                <Save
+                  size={16}
+                />
+
+                Save Payment
+
+              </button>
 
             </div>
 
           </div>
 
           {/* TABLE */}
+
           <div
             style={{
               background:
-                "rgba(11,20,79,0.85)",
-              backdropFilter:
-                "blur(12px)",
+                "rgba(10,18,60,0.92)",
+
               borderRadius:
-                "24px",
+                "22px",
+
               padding: "18px",
+
+              border:
+                "1px solid rgba(255,255,255,0.06)",
+
               overflowX:
                 "auto",
-              border:
-                "1px solid rgba(255,255,255,0.08)",
-              boxShadow:
-                "0 10px 30px rgba(0,0,0,0.25)",
             }}
           >
 
             <table
               style={{
                 width: "100%",
+
                 borderCollapse:
                   "collapse",
               }}
@@ -302,54 +475,68 @@ export default function Payments() {
 
                 <tr
                   style={{
-                    borderBottom:
-                      "1px solid rgba(255,255,255,0.08)",
+                    color:
+                      "#94a3b8",
+
+                    fontSize:
+                      "12px",
+
+                    textAlign:
+                      "left",
                   }}
                 >
 
                   <th
                     style={
-                      tableHead
+                      thStyle
                     }
                   >
-                    Transaction ID
+                    Artisan
                   </th>
 
                   <th
                     style={
-                      tableHead
+                      thStyle
                     }
                   >
-                    Customer
+                    Cluster
                   </th>
 
                   <th
                     style={
-                      tableHead
+                      thStyle
                     }
                   >
-                    Product
+                    Craft
                   </th>
 
                   <th
                     style={
-                      tableHead
+                      thStyle
                     }
                   >
-                    Amount
+                    Units
                   </th>
 
                   <th
                     style={
-                      tableHead
+                      thStyle
                     }
                   >
-                    Date
+                    Wage/Unit
                   </th>
 
                   <th
                     style={
-                      tableHead
+                      thStyle
+                    }
+                  >
+                    Total
+                  </th>
+
+                  <th
+                    style={
+                      thStyle
                     }
                   >
                     Status
@@ -361,112 +548,125 @@ export default function Payments() {
 
               <tbody>
 
-                {filteredPayments.map(
+                {payments.map(
                   (
-                    payment
+                    item,
+                    index
                   ) => (
 
                     <tr
-                      key={
-                        payment.id
-                      }
+                      key={index}
+
                       style={{
-                        borderBottom:
+                        borderTop:
                           "1px solid rgba(255,255,255,0.05)",
                       }}
                     >
 
                       <td
                         style={
-                          tableData
+                          tdStyle
                         }
                       >
                         {
-                          payment.transactionId
+                          item.artisan
                         }
                       </td>
 
                       <td
                         style={
-                          tableData
+                          tdStyle
                         }
                       >
                         {
-                          payment.customer
+                          item.cluster
                         }
                       </td>
 
                       <td
                         style={
-                          tableData
+                          tdStyle
                         }
                       >
                         {
-                          payment.product
+                          item.craft
                         }
                       </td>
 
                       <td
                         style={
-                          tableData
+                          tdStyle
+                        }
+                      >
+                        {
+                          item.units
+                        }
+                      </td>
+
+                      <td
+                        style={
+                          tdStyle
                         }
                       >
                         ₹
                         {
-                          payment.amount
+                          item.wage
                         }
                       </td>
 
                       <td
                         style={
-                          tableData
+                          tdStyle
                         }
                       >
+                        ₹
                         {
-                          payment.date
+                          item.total
                         }
                       </td>
 
                       <td
                         style={
-                          tableData
+                          tdStyle
                         }
                       >
 
                         <span
                           style={{
                             padding:
-                              "8px 14px",
+                              "6px 12px",
 
                             borderRadius:
-                              "12px",
-
-                            background:
-                              payment.status ===
-                              "Success"
-                                ? "#16a34a"
-
-                                : payment.status ===
-                                  "Pending"
-                                ? "#f59e0b"
-
-                                : "#dc2626",
-
-                            color:
-                              "white",
+                              "999px",
 
                             fontSize:
-                              "13px",
+                              "11px",
 
                             fontWeight:
-                              "bold",
+                              "600",
+
+                            background:
+
+                              item.status ===
+                              "Paid"
+
+                                ? "rgba(34,197,94,0.15)"
+
+                                : "rgba(239,68,68,0.15)",
+
+                            color:
+
+                              item.status ===
+                              "Paid"
+
+                                ? "#22c55e"
+
+                                : "#ef4444",
                           }}
                         >
-
                           {
-                            payment.status
+                            item.status
                           }
-
                         </span>
 
                       </td>
@@ -490,46 +690,162 @@ export default function Payments() {
   );
 }
 
-/* CARD STYLE */
-const cardStyle = {
+/* KPI CARD */
+
+function KpiCard({
+  title,
+  value,
+  icon,
+  bg,
+}) {
+
+  return (
+
+    <div
+      style={{
+        background:
+          "rgba(10,18,60,0.92)",
+
+        borderRadius:
+          "20px",
+
+        padding: "18px",
+
+        border:
+          "1px solid rgba(255,255,255,0.06)",
+
+        display: "flex",
+
+        alignItems:
+          "center",
+
+        gap: "14px",
+      }}
+    >
+
+      <div
+        style={{
+          width: "48px",
+
+          height: "48px",
+
+          borderRadius:
+            "14px",
+
+          background: bg,
+
+          display: "flex",
+
+          alignItems:
+            "center",
+
+          justifyContent:
+            "center",
+        }}
+      >
+        {icon}
+      </div>
+
+      <div>
+
+        <p
+          style={{
+            margin: 0,
+
+            color:
+              "#94a3b8",
+
+            fontSize:
+              "12px",
+
+            marginBottom:
+              "5px",
+          }}
+        >
+          {title}
+        </p>
+
+        <h2
+          style={{
+            margin: 0,
+
+            fontSize:
+              "22px",
+          }}
+        >
+          {value}
+        </h2>
+
+      </div>
+
+    </div>
+  );
+}
+
+/* INPUT */
+
+function InputField({
+  placeholder,
+  name,
+  value,
+  onChange,
+}) {
+
+  return (
+
+    <input
+      type="text"
+
+      name={name}
+
+      placeholder={placeholder}
+
+      value={value}
+
+      onChange={onChange}
+
+      style={inputStyle}
+    />
+  );
+}
+
+/* STYLES */
+
+const inputStyle = {
+
+  width: "100%",
+
+  height: "44px",
+
+  border: "none",
+
+  outline: "none",
+
+  borderRadius: "14px",
+
   background:
-    "rgba(11,20,79,0.85)",
+    "rgba(255,255,255,0.05)",
 
-  backdropFilter:
-    "blur(12px)",
+  color: "white",
 
-  padding: "28px",
+  padding: "0 14px",
 
-  borderRadius: "24px",
+  fontSize: "12px",
 
   border:
-    "1px solid rgba(255,255,255,0.08)",
-
-  boxShadow:
-    "0 10px 30px rgba(0,0,0,0.25)",
+    "1px solid rgba(255,255,255,0.05)",
 };
 
-const cardTitle = {
-  color: "#94a3b8",
-  marginBottom: "12px",
-  fontSize: "16px",
+const thStyle = {
+
+  padding: "14px 10px",
+
+  fontWeight: "600",
 };
 
-const cardValue = {
-  fontSize: "38px",
-  fontWeight: "700",
-};
+const tdStyle = {
 
-/* TABLE HEAD */
-const tableHead = {
-  textAlign: "left",
-  padding: "18px",
-  color: "#94a3b8",
-  fontSize: "15px",
-};
+  padding: "16px 10px",
 
-/* TABLE DATA */
-const tableData = {
-  padding: "18px",
-  fontSize: "15px",
+  fontSize: "13px",
 };

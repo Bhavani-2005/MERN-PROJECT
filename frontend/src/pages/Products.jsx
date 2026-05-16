@@ -1,110 +1,142 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import {
+  useEffect,
+  useState,
+} from "react";
 
 import Sidebar from "../components/Sidebar";
+
 import Navbar from "../components/Navbar";
+
+import {
+  Trash2,
+  Package,
+} from "lucide-react";
 
 export default function Products() {
 
-  const [products, setProducts] = useState([]);
-  const [search, setSearch] = useState("");
+  const [products, setProducts] =
+    useState([]);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    category: "",
-    price: "",
-    quantity: "",
-  });
+  const [formData, setFormData] =
+    useState({
+      Product_Name: "",
+      Craft_Type: "",
+      Selling_Price: "",
+      Units_Produced: "",
+    });
 
-  /* FETCH PRODUCTS */
-  const fetchProducts = async () => {
-
-    try {
-
-      const res = await axios.get(
-       "https://smart-artisan-backend.onrender.com/api/products"
-      );
-
-      setProducts(res.data);
-
-    } catch (error) {
-
-      console.log(error);
-    }
-  };
+  /* SAMPLE DATA */
 
   useEffect(() => {
 
-    fetchProducts();
+    setProducts([
+      {
+        _id: 1,
+        Product_Name:
+          "Leather Wallet",
+        Craft_Type:
+          "Leather Craft",
+        Selling_Price: 4802,
+        Units_Produced: 7,
+        Revenue: 33614,
+      },
+
+      {
+        _id: 2,
+        Product_Name:
+          "Printed Fabric",
+        Craft_Type:
+          "Textile",
+        Selling_Price: 1433,
+        Units_Produced: 5,
+        Revenue: 7165,
+      },
+
+      {
+        _id: 3,
+        Product_Name:
+          "Traditional Dupatta",
+        Craft_Type:
+          "Handloom",
+        Selling_Price: 1270,
+        Units_Produced: 45,
+        Revenue: 57150,
+      },
+
+      {
+        _id: 4,
+        Product_Name:
+          "Terracotta Bowl",
+        Craft_Type:
+          "Pottery",
+        Selling_Price: 3891,
+        Units_Produced: 42,
+        Revenue: 163422,
+      },
+    ]);
 
   }, []);
 
-  /* HANDLE INPUT */
+  /* HANDLE CHANGE */
+
   const handleChange = (e) => {
 
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+
+      [e.target.name]:
+        e.target.value,
     });
   };
 
-  /* ADD PRODUCT */
-  const handleSubmit = async (e) => {
+  /* ADD */
 
-    e.preventDefault();
+  const handleAdd = () => {
 
-    try {
+    const revenue =
 
-      await axios.post(
-        "https://smart-artisan-backend.onrender.com/api/products",
-        {
-          ...formData,
-          image:
-            "https://placehold.co/300",
-        }
+      Number(
+        formData.Selling_Price
+      ) *
+
+      Number(
+        formData.Units_Produced
       );
 
-      setFormData({
-        name: "",
-        category: "",
-        price: "",
-        quantity: "",
-      });
+    const newProduct = {
 
-      fetchProducts();
+      _id: Date.now(),
 
-    } catch (error) {
+      ...formData,
 
-      console.log(error);
-    }
+      Revenue: revenue,
+    };
+
+    setProducts([
+      newProduct,
+      ...products,
+    ]);
+
+    setFormData({
+      Product_Name: "",
+      Craft_Type: "",
+      Selling_Price: "",
+      Units_Produced: "",
+    });
   };
 
-  /* DELETE PRODUCT */
-  const deleteProduct = async (id) => {
+  /* DELETE */
 
-    try {
+  const handleDelete = (id) => {
 
-      await axios.delete(
-        `https://smart-artisan-backend.onrender.com/api/products/${id}`
-      );
+    setProducts(
 
-      fetchProducts();
-
-    } catch (error) {
-
-      console.log(error);
-    }
-  };
-
-  /* SEARCH FILTER */
-  const filteredProducts =
-    products.filter((product) =>
-      product.name
-        ?.toLowerCase()
-        .includes(
-          search.toLowerCase()
-        )
+      products.filter(
+        (item) =>
+          item._id !== id
+      )
     );
+  };
 
   return (
 
@@ -114,7 +146,7 @@ export default function Products() {
 
       <div
         style={{
-          marginLeft: "260px",
+          marginLeft: "250px",
         }}
       >
 
@@ -123,25 +155,31 @@ export default function Products() {
         <div
           style={{
             minHeight: "100vh",
+
+            padding: "18px 22px",
+
             background:
-              "linear-gradient(135deg,#020617,#08135C)",
+              "linear-gradient(135deg,#020617 0%, #081028 45%, #0b1437 100%)",
+
             color: "white",
-            padding: "24px",
+
             fontFamily:
-              "'Poppins', sans-serif",
+              "Poppins, sans-serif",
           }}
         >
 
-          {/* TOP */}
+          {/* HEADER */}
+
           <div
             style={{
               display: "flex",
+
               justifyContent:
                 "space-between",
+
               alignItems: "center",
-              marginBottom: "35px",
-              flexWrap: "wrap",
-              gap: "20px",
+
+              marginBottom: "20px",
             }}
           >
 
@@ -149,294 +187,372 @@ export default function Products() {
 
               <h1
                 style={{
-                  fontSize: "36px",
-                  marginBottom: "10px",
+                  margin: 0,
+
+                  fontSize: "22px",
+
+                  fontWeight:
+                    "700",
                 }}
               >
-                Products
+                Production
+                Management
               </h1>
 
               <p
                 style={{
                   color: "#94a3b8",
-                  fontSize: "18px",
+
+                  marginTop: "6px",
+
+                  fontSize: "12px",
                 }}
               >
-                Manage all your products
+                Track artisan
+                production and
+                inventory
               </p>
 
             </div>
 
-            {/* SEARCH */}
             <input
               type="text"
-              placeholder="Search products..."
-              value={search}
-              onChange={(e) =>
-                setSearch(
-                  e.target.value
-                )
-              }
+
+              placeholder="Search artisan products..."
+
               style={{
-                width: "350px",
-                padding: "16px",
-                borderRadius: "16px",
-                border:
-                  "1px solid rgba(255,255,255,0.08)",
-                background:
-                  "rgba(11,20,79,0.85)",
-                color: "white",
-                fontSize: "16px",
+                width: "320px",
+
+                height: "42px",
+
+                border: "none",
+
                 outline: "none",
+
+                borderRadius:
+                  "14px",
+
+                background:
+                  "rgba(255,255,255,0.05)",
+
+                color: "white",
+
+                padding:
+                  "0 16px",
+
+                fontSize: "12px",
+
+                border:
+                  "1px solid rgba(255,255,255,0.05)",
               }}
             />
 
           </div>
 
           {/* FORM */}
-          <form
-            onSubmit={handleSubmit}
+
+          <div
             style={{
               background:
-                "rgba(11,20,79,0.85)",
-              backdropFilter:
-                "blur(12px)",
-              borderRadius: "24px",
-              padding: "30px",
+                "rgba(10,18,60,0.92)",
+
+              borderRadius:
+                "22px",
+
+              padding: "20px",
+
+              marginBottom:
+                "22px",
+
               border:
-                "1px solid rgba(255,255,255,0.08)",
-              marginBottom: "40px",
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fit,minmax(250px,1fr))",
-              gap: "20px",
+                "1px solid rgba(255,255,255,0.06)",
             }}
           >
 
-            <input
-              type="text"
-              name="name"
-              placeholder="Product Name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              style={inputStyle}
-            />
-
-            <input
-              type="text"
-              name="category"
-              placeholder="Category"
-              value={formData.category}
-              onChange={handleChange}
-              required
-              style={inputStyle}
-            />
-
-            <input
-              type="number"
-              name="price"
-              placeholder="Price"
-              value={formData.price}
-              onChange={handleChange}
-              required
-              style={inputStyle}
-            />
-
-            <input
-              type="number"
-              name="quantity"
-              placeholder="Quantity"
-              value={formData.quantity}
-              onChange={handleChange}
-              required
-              style={inputStyle}
-            />
-
-            <button
-              type="submit"
+            <div
               style={{
-                gridColumn:
-                  "span 2",
-                padding: "18px",
-                borderRadius:
+                display: "grid",
+
+                gridTemplateColumns:
+                  "1fr 1fr",
+
+                gap: "16px",
+
+                marginBottom:
                   "16px",
-                border: "none",
-                background:
-                  "linear-gradient(135deg,#38bdf8,#0ea5e9)",
-                color: "#020617",
-                fontWeight: "700",
-                fontSize: "18px",
-                cursor: "pointer",
               }}
             >
-              Add Product
+
+              <InputField
+                name="Product_Name"
+                placeholder="Craft/Product Name"
+                value={
+                  formData.Product_Name
+                }
+                onChange={
+                  handleChange
+                }
+              />
+
+              <InputField
+                name="Craft_Type"
+                placeholder="Craft Type"
+                value={
+                  formData.Craft_Type
+                }
+                onChange={
+                  handleChange
+                }
+              />
+
+              <InputField
+                name="Selling_Price"
+                placeholder="Selling Price"
+                value={
+                  formData.Selling_Price
+                }
+                onChange={
+                  handleChange
+                }
+              />
+
+              <InputField
+                name="Units_Produced"
+                placeholder="Units Produced"
+                value={
+                  formData.Units_Produced
+                }
+                onChange={
+                  handleChange
+                }
+              />
+
+            </div>
+
+            <button
+              onClick={handleAdd}
+
+              style={{
+                width: "100%",
+
+                height: "48px",
+
+                border: "none",
+
+                borderRadius:
+                  "16px",
+
+                background:
+                  "linear-gradient(135deg,#38bdf8,#0ea5e9)",
+
+                color: "#03111f",
+
+                fontWeight:
+                  "700",
+
+                fontSize: "15px",
+
+                cursor:
+                  "pointer",
+              }}
+            >
+              Add Production Item
             </button>
 
-          </form>
+          </div>
 
-          {/* PRODUCT CARDS */}
+          {/* PRODUCT GRID */}
+
           <div
             style={{
               display: "grid",
+
               gridTemplateColumns:
-                "repeat(auto-fit,minmax(260px,1fr))",
-              gap: "25px",
+                "repeat(auto-fit,minmax(250px,1fr))",
+
+              gap: "18px",
             }}
           >
 
-            {filteredProducts.map(
+            {products.map(
               (product) => (
 
                 <div
                   key={product._id}
+
                   style={{
                     background:
-                      "rgba(11,20,79,0.85)",
-                    backdropFilter:
-                      "blur(12px)",
+                      "rgba(10,18,60,0.92)",
+
                     borderRadius:
-                      "24px",
+                      "20px",
+
                     padding: "18px",
+
                     border:
-                      "1px solid rgba(255,255,255,0.08)",
-                    display: "flex",
-                    flexDirection:
-                      "column",
-                    justifyContent:
-                      "space-between",
-                    transition:
-                      "0.3s ease",
+                      "1px solid rgba(255,255,255,0.06)",
+
                     boxShadow:
-                      "0 10px 30px rgba(0,0,0,0.25)",
+                      "0 10px 25px rgba(0,0,0,0.25)",
                   }}
                 >
 
-                  {/* IMAGE */}
-                  <img
-                    src={
-                      product.category ===
-                      "Furniture"
-                        ? "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=500&q=80"
+                  {/* TOP */}
 
-                        : product.category ===
-                          "Technology"
-                        ? "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=500&q=80"
-
-                        : product.category ===
-                          "Office Supplies"
-                        ? "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=500&q=80"
-
-                        : product.category ===
-                          "Clothing"
-                        ? "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=500&q=80"
-
-                        : product.category ===
-                          "Bags"
-                        ? "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80"
-
-                        : product.category ===
-                          "Electronics"
-                        ? "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=500&q=80"
-
-                        : "https://placehold.co/300x200"
-                    }
-
-                    alt={
-                      product.name
-                    }
-
+                  <div
                     style={{
-                      width: "100%",
-                      height: "130px",
-                      objectFit:
-                        "cover",
-                      borderRadius:
-                        "18px",
-                      marginBottom:
-                        "18px",
-                    }}
-                  />
+                      display: "flex",
 
-                  {/* NAME */}
-                  <h2
-                    style={{
-                      fontSize:
-                        "20px",
-                      lineHeight:
-                        "30px",
+                      alignItems:
+                        "center",
+
+                      gap: "10px",
+
                       marginBottom:
-                        "12px",
+                        "14px",
                     }}
                   >
-                    {product.name}
-                  </h2>
+
+                    <div
+                      style={{
+                        width: "42px",
+
+                        height: "42px",
+
+                        borderRadius:
+                          "12px",
+
+                        background:
+                          "rgba(56,189,248,0.12)",
+
+                        display: "flex",
+
+                        alignItems:
+                          "center",
+
+                        justifyContent:
+                          "center",
+                      }}
+                    >
+
+                      <Package
+                        size={18}
+                        color="#38bdf8"
+                      />
+
+                    </div>
+
+                    <h2
+                      style={{
+                        margin: 0,
+
+                        fontSize:
+                          "16px",
+
+                        fontWeight:
+                          "700",
+                      }}
+                    >
+                      {
+                        product.Product_Name
+                      }
+                    </h2>
+
+                  </div>
 
                   {/* DETAILS */}
-                  <p
-                    style={
-                      textStyle
-                    }
-                  >
-                    Category:{" "}
-                    {
-                      product.category
-                    }
-                  </p>
 
-                  <p
-                    style={
-                      textStyle
-                    }
-                  >
-                    Price: ₹
-                    {Number(
-                      product.price
-                    ).toFixed(2)}
-                  </p>
+                  <div
+                    style={{
+                      display: "flex",
 
-                  <p
-                    style={
-                      textStyle
-                    }
+                      flexDirection:
+                        "column",
+
+                      gap: "8px",
+
+                      marginBottom:
+                        "18px",
+                    }}
                   >
-                    Quantity:{" "}
-                    {
-                      product.quantity
-                    }
-                  </p>
+
+                    <TextRow
+                      label="Craft Type"
+                      value={
+                        product.Craft_Type
+                      }
+                    />
+
+                    <TextRow
+                      label="Selling Price"
+                      value={`₹${product.Selling_Price}`}
+                    />
+
+                    <TextRow
+                      label="Units Produced"
+                      value={
+                        product.Units_Produced
+                      }
+                    />
+
+                    <TextRow
+                      label="Revenue"
+                      value={`₹${product.Revenue}`}
+                    />
+
+                  </div>
 
                   {/* DELETE */}
+
                   <button
                     onClick={() =>
-                      deleteProduct(
+                      handleDelete(
                         product._id
                       )
                     }
 
                     style={{
                       width: "100%",
-                      marginTop:
-                        "20px",
-                      padding:
-                        "14px",
+
+                      height: "42px",
+
+                      border: "none",
+
                       borderRadius:
                         "14px",
-                      border:
-                        "none",
+
                       background:
                         "linear-gradient(135deg,#ef4444,#dc2626)",
-                      color:
-                        "white",
+
+                      color: "white",
+
                       fontWeight:
                         "600",
+
+                      fontSize:
+                        "13px",
+
+                      display: "flex",
+
+                      alignItems:
+                        "center",
+
+                      justifyContent:
+                        "center",
+
+                      gap: "8px",
+
                       cursor:
                         "pointer",
-                      fontSize:
-                        "15px",
                     }}
                   >
+
+                    <Trash2
+                      size={16}
+                    />
+
                     Delete
+
                   </button>
 
                 </div>
@@ -454,23 +570,102 @@ export default function Products() {
   );
 }
 
-/* INPUT STYLE */
-const inputStyle = {
-  padding: "16px",
-  borderRadius: "16px",
-  border:
-    "1px solid rgba(255,255,255,0.08)",
-  background:
-    "rgba(255,255,255,0.05)",
-  color: "white",
-  fontSize: "16px",
-  outline: "none",
-};
+/* INPUT */
 
-/* TEXT STYLE */
-const textStyle = {
-  color: "#cbd5e1",
-  marginBottom: "8px",
-  fontSize: "15px",
-  lineHeight: "24px",
-};
+function InputField({
+  placeholder,
+  name,
+  value,
+  onChange,
+}) {
+
+  return (
+
+    <input
+      type="text"
+
+      name={name}
+
+      placeholder={placeholder}
+
+      value={value}
+
+      onChange={onChange}
+
+      style={{
+        width: "100%",
+
+        height: "46px",
+
+        border: "none",
+
+        outline: "none",
+
+        borderRadius:
+          "14px",
+
+        background:
+          "rgba(255,255,255,0.05)",
+
+        color: "white",
+
+        padding:
+          "0 16px",
+
+        fontSize: "13px",
+
+        border:
+          "1px solid rgba(255,255,255,0.05)",
+      }}
+    />
+  );
+}
+
+/* TEXT ROW */
+
+function TextRow({
+  label,
+  value,
+}) {
+
+  return (
+
+    <div
+      style={{
+        display: "flex",
+
+        justifyContent:
+          "space-between",
+
+        alignItems:
+          "center",
+      }}
+    >
+
+      <span
+        style={{
+          color:
+            "#94a3b8",
+
+          fontSize:
+            "12px",
+        }}
+      >
+        {label}
+      </span>
+
+      <span
+        style={{
+          fontSize:
+            "13px",
+
+          fontWeight:
+            "600",
+        }}
+      >
+        {value}
+      </span>
+
+    </div>
+  );
+}

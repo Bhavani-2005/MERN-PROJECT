@@ -5,75 +5,139 @@ import {
 } from "lucide-react";
 
 import {
-  BarChart,
-  Bar,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
-import { getDashboardData } from "../api/dashboardApi";
+import {
+  getDashboardData,
+} from "../api/dashboardApi";
 
 import Sidebar from "../components/Sidebar";
+
 import Navbar from "../components/Navbar";
+
+import socket from "../socket";
 
 export default function Dashboard() {
 
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] =
+    useState([]);
+
+  const user =
+    JSON.parse(
+      localStorage.getItem(
+        "user"
+      )
+    );
+
+  const role =
+    user?.role || "artisan";
 
   useEffect(() => {
 
     fetchDashboardData();
 
+    socket.on(
+      "productionUpdated",
+
+      (newData) => {
+
+        setProducts(
+          newData
+        );
+      }
+    );
+
+    return () => {
+
+      socket.off(
+        "productionUpdated"
+      );
+    };
+
   }, []);
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData =
+    async () => {
 
-    try {
+      try {
 
-      const data = await getDashboardData();
+        const data =
+          await getDashboardData();
 
-      setProducts(data);
+        setProducts(data);
 
-    } catch (error) {
+      } catch (error) {
 
-      console.log(error);
-    }
-  };
+        console.log(error);
+      }
+    };
 
-  /* KPI CALCULATIONS */
+  /* KPI */
 
-  const totalArtisans = products.length;
+  const totalArtisans =
+    products.length;
 
-  const totalUnitsProduced = products.reduce(
-    (acc, item) =>
-      acc + Number(item.quantity || 0),
-    0
-  );
+  const totalUnitsProduced =
+    products.reduce(
+      (acc, item) =>
+        acc +
+        Number(
+          item.Units_Produced || 0
+        ),
+      0
+    );
 
-  const totalWagesPaid = products.reduce(
-    (acc, item) =>
-      acc +
-      Number(item.price || 0) *
-        Number(item.quantity || 0),
-    0
-  );
+  const totalRevenue =
+    products.reduce(
+      (acc, item) =>
+        acc +
+        Number(
+          item.Revenue || 0
+        ),
+      0
+    );
 
-  /* CHART DATA */
+  /* CHART */
 
-  const chartData = products
-    .slice(0, 10)
-    .map((item) => ({
-      name:
-        item.name?.substring(0, 10) ||
-        "Item",
+  const chartData =
+    products
+      .slice(0, 10)
+      .map((item) => ({
 
-      production:
-        Number(item.quantity || 0),
-    }));
+        name:
+          item.Product_Name
+            ?.substring(0, 10) ||
+          "Craft",
+
+        production:
+          Number(
+            item.Units_Produced || 0
+          ),
+
+      }));
+
+  const dashboardTitle =
+
+    role === "admin"
+      ? "Admin Dashboard"
+
+      : role ===
+        "cluster-head"
+
+      ? "Cluster Dashboard"
+
+      : "Artisan Dashboard";
 
   return (
 
@@ -83,7 +147,7 @@ export default function Dashboard() {
 
       <div
         style={{
-          marginLeft: "240px",
+          marginLeft: "250px",
         }}
       >
 
@@ -92,181 +156,267 @@ export default function Dashboard() {
         <div
           style={{
             minHeight: "100vh",
-            padding: "24px",
+
+            padding: "18px 22px",
+
             background:
-              "linear-gradient(135deg,#020617,#08135C)",
+              "linear-gradient(135deg,#020617 0%, #081028 45%, #0b1437 100%)",
+
             color: "white",
+
             fontFamily:
               "Poppins, sans-serif",
           }}
         >
 
           {/* HEADER */}
+
           <div
             style={{
+              marginBottom: "22px",
+
               display: "flex",
-              justifyContent:
-                "space-between",
+
+              flexDirection: "column",
+
               alignItems: "center",
-              marginBottom: "35px",
+
+              justifyContent: "center",
+
+              textAlign: "center",
             }}
           >
 
-            <div>
-
-              <h1
-                style={{
-                  margin: 0,
-                  fontSize: "34px",
-                  fontWeight: "700",
-                }}
-              >
-                Dashboard
-              </h1>
-
-              <p
-                style={{
-                  color: "#94a3b8",
-                  marginTop: "8px",
-                  fontSize: "15px",
-                }}
-              >
-                Monitor artisan production,
-                wages and activities
-              </p>
-
-            </div>
-
-            {/* AVATAR */}
-            <div
+            <h1
               style={{
-                width: "54px",
-                height: "54px",
-                borderRadius: "50%",
-                background:
-                  "linear-gradient(135deg,#38bdf8,#6366f1)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                margin: 0,
+
+                fontSize: "22px",
+
                 fontWeight: "700",
-                fontSize: "20px",
-                boxShadow:
-                  "0 10px 25px rgba(56,189,248,0.35)",
+
+                letterSpacing: "-0.5px",
+
+                color: "white",
               }}
             >
-              V
-            </div>
+              {dashboardTitle}
+            </h1>
+
+            <p
+              style={{
+                color: "#94a3b8",
+
+                marginTop: "6px",
+
+                fontSize: "12px",
+              }}
+            >
+
+              {role === "admin" &&
+                "Monitor artisans, production and payments"}
+
+              {role === "cluster-head" &&
+                "Manage cluster production and artisan activity"}
+
+              {role === "artisan" &&
+                "Track your production and earnings"}
+
+            </p>
 
           </div>
 
-          {/* KPI CARDS */}
+          {/* KPI */}
+
           <div
             style={{
               display: "grid",
+
               gridTemplateColumns:
-                "repeat(auto-fit,minmax(260px,1fr))",
-              gap: "22px",
-              marginBottom: "35px",
+                "repeat(auto-fit,minmax(220px,1fr))",
+
+              gap: "14px",
+
+              marginBottom: "18px",
             }}
           >
 
             <Card
-              title="Total Artisans"
-              value={totalArtisans}
+              title={
+                role === "artisan"
+                  ? "My Products"
+                  : "Total Artisans"
+              }
+
+              value={
+                totalArtisans
+              }
+
               icon={
                 <Users
-                  size={24}
+                  size={20}
                   color="#a855f7"
                 />
               }
+
               iconBg="rgba(168,85,247,0.15)"
             />
 
             <Card
-              title="Units Produced"
-              value={totalUnitsProduced}
+              title={
+                role === "artisan"
+                  ? "My Production"
+                  : "Units Produced"
+              }
+
+              value={
+                totalUnitsProduced
+              }
+
               icon={
                 <Package
-                  size={24}
+                  size={20}
                   color="#22d3ee"
                 />
               }
+
               iconBg="rgba(34,211,238,0.15)"
             />
 
             <Card
-              title="Total Wages Paid"
-              value={`₹${totalWagesPaid.toLocaleString()}`}
+              title={
+                role === "artisan"
+                  ? "My Earnings"
+                  : "Total Revenue"
+              }
+
+              value={`₹${totalRevenue.toLocaleString()}`}
+
               icon={
                 <CreditCard
-                  size={24}
+                  size={20}
                   color="#facc15"
                 />
               }
+
               iconBg="rgba(250,204,21,0.15)"
             />
 
           </div>
 
-          {/* MAIN SECTION */}
+          {/* MAIN */}
+
           <div
             style={{
               display: "grid",
+
               gridTemplateColumns:
-                "2fr 1fr",
-              gap: "22px",
+                "1.8fr 1fr",
+
+              gap: "14px",
             }}
           >
 
             {/* CHART */}
+
             <div style={glassCard}>
 
-              <h2
+              <div
                 style={{
-                  marginTop: 0,
-                  marginBottom: "20px",
-                  fontSize: "22px",
+                  display: "flex",
+
+                  justifyContent:
+                    "space-between",
+
+                  alignItems:
+                    "center",
+
+                  marginBottom:
+                    "14px",
                 }}
               >
-                Production Analytics
-              </h2>
+
+                <h2
+                  style={{
+                    margin: 0,
+
+                    fontSize:
+                      "17px",
+
+                    fontWeight:
+                      "600",
+                  }}
+                >
+                  Production Overview
+                </h2>
+
+              </div>
 
               <div
                 style={{
                   width: "100%",
-                  height: "330px",
+
+                  height: "290px",
                 }}
               >
 
-                <ResponsiveContainer>
+                <ResponsiveContainer
+                  width="100%"
+                  height="100%"
+                >
 
-                  <BarChart
+                  <AreaChart
                     data={chartData}
                   >
+
+                    <defs>
+
+                      <linearGradient
+                        id="colorData"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+
+                        <stop
+                          offset="5%"
+                          stopColor="#38bdf8"
+                          stopOpacity={0.8}
+                        />
+
+                        <stop
+                          offset="95%"
+                          stopColor="#38bdf8"
+                          stopOpacity={0}
+                        />
+
+                      </linearGradient>
+
+                    </defs>
 
                     <XAxis
                       dataKey="name"
                       stroke="#94a3b8"
+                      fontSize={11}
                     />
 
                     <YAxis
                       stroke="#94a3b8"
+                      fontSize={11}
                     />
 
                     <Tooltip />
 
-                    <Bar
+                    <Area
+                      type="monotone"
                       dataKey="production"
-                      fill="#38bdf8"
-                      radius={[
-                        8,
-                        8,
-                        0,
-                        0,
-                      ]}
+                      stroke="#38bdf8"
+                      fillOpacity={1}
+                      fill="url(#colorData)"
                     />
 
-                  </BarChart>
+                  </AreaChart>
 
                 </ResponsiveContainer>
 
@@ -274,20 +424,29 @@ export default function Dashboard() {
 
             </div>
 
-            {/* RECENT PRODUCTION */}
+            {/* RECENT */}
+
             <div
               style={{
                 ...glassCard,
-                maxHeight: "500px",
-                overflowY: "auto",
+
+                maxHeight:
+                  "410px",
+
+                overflowY:
+                  "auto",
               }}
             >
 
               <h2
                 style={{
-                  marginTop: 0,
-                  marginBottom: "20px",
-                  fontSize: "22px",
+                  margin: 0,
+
+                  marginBottom:
+                    "14px",
+
+                  fontSize:
+                    "17px",
                 }}
               >
                 Recent Production
@@ -296,45 +455,60 @@ export default function Dashboard() {
               <div
                 style={{
                   display: "flex",
-                  flexDirection: "column",
-                  gap: "16px",
+
+                  flexDirection:
+                    "column",
+
+                  gap: "12px",
                 }}
               >
 
                 {products
-                  .slice(0, 8)
+                  .slice(0, 5)
                   .map((product) => (
 
                     <div
                       key={product._id}
+
                       style={{
                         display: "flex",
-                        gap: "14px",
+
+                        gap: "12px",
+
                         alignItems:
                           "center",
+
                         background:
-                          "rgba(255,255,255,0.05)",
-                        padding: "14px",
+                          "rgba(255,255,255,0.04)",
+
+                        padding:
+                          "12px",
+
                         borderRadius:
                           "14px",
+
+                        border:
+                          "1px solid rgba(255,255,255,0.05)",
                       }}
                     >
 
                       <img
-                        src={
-                          product.image ||
-                          "https://placehold.co/300x200"
-                        }
+                        src="https://placehold.co/300x200"
+
                         alt={
-                          product.name
+                          product.Product_Name
                         }
+
                         style={{
-                          width: "64px",
-                          height: "64px",
+                          width: "52px",
+
+                          height: "52px",
+
                           objectFit:
                             "cover",
+
                           borderRadius:
-                            "12px",
+                            "10px",
                         }}
                       />
 
@@ -343,27 +517,55 @@ export default function Dashboard() {
                         <h4
                           style={{
                             margin: 0,
+
                             marginBottom:
-                              "6px",
+                              "4px",
+
                             fontSize:
-                              "15px",
+                              "13px",
                           }}
                         >
-                          {product.name}
+                          {
+                            product.Product_Name
+                          }
                         </h4>
 
                         <p
                           style={{
                             margin: 0,
+
                             color:
                               "#94a3b8",
+
                             fontSize:
-                              "13px",
+                              "11px",
                           }}
                         >
                           Units:
                           {" "}
-                          {product.quantity}
+                          {
+                            product.Units_Produced
+                          }
+                        </p>
+
+                        <p
+                          style={{
+                            margin: 0,
+
+                            color:
+                              "#22d3ee",
+
+                            fontSize:
+                              "11px",
+
+                            marginTop:
+                              "3px",
+                          }}
+                        >
+                          ₹
+                          {
+                            product.Revenue
+                          }
                         </p>
 
                       </div>
@@ -386,7 +588,7 @@ export default function Dashboard() {
   );
 }
 
-/* KPI CARD */
+/* CARD */
 
 function Card({
   title,
@@ -400,45 +602,72 @@ function Card({
     <div
       style={{
         background:
-          "rgba(11,20,79,0.85)",
+          "rgba(10,18,60,0.92)",
+
         backdropFilter:
-          "blur(12px)",
-        borderRadius: "22px",
-        padding: "20px",
+          "blur(14px)",
+
+        borderRadius:
+          "18px",
+
+        padding: "16px",
+
         border:
-          "1px solid rgba(255,255,255,0.08)",
+          "1px solid rgba(255,255,255,0.06)",
+
         display: "flex",
-        alignItems: "center",
-        gap: "18px",
+
+        alignItems:
+          "center",
+
+        gap: "12px",
+
+        minHeight:
+          "88px",
+
         boxShadow:
           "0 10px 30px rgba(0,0,0,0.25)",
       }}
     >
 
-      {/* ICON */}
       <div
         style={{
-          width: "58px",
-          height: "58px",
-          borderRadius: "16px",
-          background: iconBg,
+          width: "48px",
+
+          height: "48px",
+
+          borderRadius:
+            "14px",
+
+          background:
+            iconBg,
+
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+
+          alignItems:
+            "center",
+
+          justifyContent:
+            "center",
         }}
       >
         {icon}
       </div>
 
-      {/* TEXT */}
       <div>
 
         <p
           style={{
-            color: "#94a3b8",
-            marginBottom: "6px",
+            color:
+              "#94a3b8",
+
+            marginBottom:
+              "5px",
+
             marginTop: 0,
-            fontSize: "14px",
+
+            fontSize:
+              "12px",
           }}
         >
           {title}
@@ -447,7 +676,12 @@ function Card({
         <h1
           style={{
             margin: 0,
-            fontSize: "26px",
+
+            fontSize:
+              "22px",
+
+            fontWeight:
+              "700",
           }}
         >
           {value}
@@ -462,13 +696,21 @@ function Card({
 /* GLASS CARD */
 
 const glassCard = {
+
   background:
-    "rgba(11,20,79,0.85)",
-  backdropFilter: "blur(12px)",
-  borderRadius: "22px",
-  padding: "22px",
+    "rgba(10,18,60,0.92)",
+
+  backdropFilter:
+    "blur(14px)",
+
+  borderRadius:
+    "20px",
+
+  padding: "18px",
+
   border:
-    "1px solid rgba(255,255,255,0.08)",
+    "1px solid rgba(255,255,255,0.06)",
+
   boxShadow:
     "0 10px 30px rgba(0,0,0,0.25)",
 };

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 *{
   margin:0;
@@ -6,12 +6,142 @@
   box-sizing:border-box;
 }
 
-html{
-  font-size:14px;
+html,
+body,
+#root{
+  width:100%;
+  min-height:100vh;
+  background:#050816;
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
 }
 
-body{
-  font-family:'Poppins',sans-serif;
-  overflow-x:hidden;
-  background:#020B3F;
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-track{
+  background:#091227;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#1e3a8a;
+  border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background:#2563eb;
+}
+
+/* GLOBAL COLORS */
+
+:root{
+
+  --bg-primary:#050816;
+
+  --bg-secondary:#0b1120;
+
+  --card-bg:#111c44;
+
+  --card-bg-light:#162354;
+
+  --border-color:rgba(255,255,255,0.06);
+
+  --primary:#38bdf8;
+
+  --primary-dark:#2563eb;
+
+  --purple:#8b5cf6;
+
+  --text-primary:#f8fafc;
+
+  --text-secondary:#94a3b8;
+
+  --success:#22c55e;
+
+  --danger:#ef4444;
+
+  --warning:#facc15;
+}
+
+/* COMMON CARD */
+
+.glass-card{
+
+  background:rgba(15,23,42,0.92);
+
+  border:1px solid rgba(255,255,255,0.06);
+
+  backdrop-filter:blur(18px);
+
+  border-radius:24px;
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.35);
+
+}
+
+/* INPUTS */
+
+input,
+select,
+textarea{
+
+  background:#18254f;
+
+  border:1px solid rgba(255,255,255,0.06);
+
+  color:white;
+
+  outline:none;
+
+  transition:0.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+  border:1px solid #38bdf8;
+
+  box-shadow:
+    0 0 0 4px rgba(56,189,248,0.12);
+}
+
+/* BUTTONS */
+
+button{
+
+  transition:0.3s ease;
+}
+
+button:hover{
+
+  transform:translateY(-2px);
+
+  opacity:0.95;
+}
+
+/* LINKS */
+
+a{
+  text-decoration:none;
+}
+
+/* HEADINGS */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+  color:white;
+}
+
+p,
+span{
+  color:#cbd5e1;
 }
